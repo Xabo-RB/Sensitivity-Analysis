@@ -59,6 +59,9 @@ cb.Label.String = 'Sensitivity';
 xlabel('Time (s)', 'FontSize', 18, 'Color', 'k', 'FontWeight', 'normal');
 ylabel('Phosphorylation rate', 'FontSize', 18, 'Color', 'k', 'FontWeight', 'normal');
 title('ZU', 'FontSize', 18, 'FontWeight', 'bold', 'Color', 'k');
+set(gca, 'YDir', 'normal');
+% xticks(linspace(min(tspan), max(tspan), 5)); % Ticks del eje X
+% yticks(linspace(min(koffVect), max(koffVect), 6)); % Ticks del eje Y
 % set(gca, 'YDir', 'normal', 'FontSize', 16, 'FontWeight', 'bold');
 % set(gca, 'YDir', 'normal');
 % set(gca, 'FontSize', 16, ...       
