@@ -27,7 +27,7 @@ solution = sensitivityMain(x0, p, d, tspan, @ODESerialTrig);
 keffVect = 0.0001:0.0005:0.5;
 
 pI = pI + 1;
-results_matrix = zeros(length(keffVect), length(solution{1}(:, 1))); 
+results_matrix = zeros(length(keffVect), length(solution{SS}(:, 1))); 
 for i = 1:length(keffVect)
     
     % -> Change the element in parameter vector for an element of the parameter interval
