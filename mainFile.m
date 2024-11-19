@@ -47,23 +47,28 @@ end
 
 inferno = csvread('inferno_colormap.csv');
 %inferno = flipud(inferno);
-figure; 
 % imagesc(tspan, koffVect, results_matrix); 
 % results_matrix = log10(results_matrix); results_matrix = real(results_matrix); NO
 %results_matrix = log10(abs(results_matrix));
-imagesc(tspan, keffVect, results_matrix); 
+figure('Position', [100, 100, 600, 400]);
+% -> ¡Change the parameter!
+imagesc(tspan, keffVect, results_matrix);
 colormap(inferno);
 cb = colorbar;
 cb.Label.String = 'Sensitivity';
-xlabel('Time (s)');
-ylabel('Dissociate rate (koff)');
-title('Serial Triggering');
-set(gca, 'YDir', 'normal');
+xlabel('Time (s)', 'FontSize', 18, 'Color', 'k', 'FontWeight', 'normal');
+ylabel('Phosphorylation rate', 'FontSize', 18, 'Color', 'k', 'FontWeight', 'normal');
+title('ZU', 'FontSize', 18, 'FontWeight', 'bold', 'Color', 'k');
+% set(gca, 'YDir', 'normal', 'FontSize', 16, 'FontWeight', 'bold');
+% set(gca, 'YDir', 'normal');
+% set(gca, 'FontSize', 16, ...       
+%          'FontWeight', 'normal', ... 
+%          'LineWidth', 0.5);  
 hold on
 
 
-
-%plot(tspan,solution{1}(:,1))
+figure
+plot(tspan,solution{1}(:,1))
 
 function dydt = myODEFunction(t, x, p)
     dydt = [-p(1) * x(1) + p(2) * x(2);
