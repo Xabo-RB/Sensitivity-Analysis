@@ -29,7 +29,8 @@ keffVect = 0.0001:0.0005:0.5;
 pI = pI + 1;
 results_matrix = zeros(length(keffVect), length(solution{SS}(:, 1))); 
 for i = 1:length(keffVect)
-    
+
+    % -> M
     % -> Change the element in parameter vector for an element of the parameter interval
     p = complex([0.61, 0.0055, 0.0011, keffVect(i), 5, 1, 0.094], 0);
     
