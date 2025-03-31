@@ -1,4 +1,4 @@
-function solution = sensitivityMain(x0, p, d, tspan, odeFunction)
+ function solution = sensitivityMain(x0, p, d, tspan, odeFunction)
     % sensitivityMain: Computes the sensitivities of a dynamic system 
     % with respect to its parameters.
     %
@@ -32,8 +32,12 @@ function solution = sensitivityMain(x0, p, d, tspan, odeFunction)
     end
 
     neg = @(t,y)odeFunction(t, y, p);
-    options = odeset('RelTol',1e-6,'AbsTol',1e-9, 'Refine', 1);
-    [t,x] = ode45(neg, tspan, x0, options);
+    %options = odeset('RelTol',1e-3,'AbsTol',1e-3, 'Refine', 1);
+    options = odeset('RelTol',1e-9,'AbsTol',1e-12, 'Refine', 1); %1e-6,1e-9
+    
+    %[t,x] = ode45(neg, tspan, x0, options);
+    [t,x] = ode23s(neg, tspan, x0, options);
+
     
     lp = length(p); ls = size(x, 1); lx = length(x0);
     solution = cell(1, lx);
@@ -49,10 +53,12 @@ function solution = sensitivityMain(x0, p, d, tspan, odeFunction)
 
         p(j) = p(j) + d * 1i;
         
-        options = odeset('RelTol',1e-6,'AbsTol',1e-9, 'Refine', 1);
+        %options = odeset('RelTol',1e-3,'AbsTol',1e-3, 'Refine', 1);
+        options = odeset('RelTol',1e-6,'AbsTol',1e-9, 'Refine', 1); %1e-6,1e-9
+
         
         neg = @(t,y)odeFunction(t, y, p);
-        [t,x] = ode45(neg, tspan, x0, options);
+        [t,x] = ode23s(neg, tspan, x0, options);
         
         p(j) = complex(real(p(j)), 0);
         xSens = imag(x) ./ d;
@@ -64,4 +70,4 @@ function solution = sensitivityMain(x0, p, d, tspan, odeFunction)
 
     end
 
-end
+end  
