@@ -16,6 +16,7 @@ function solution = sensitivityMain1(x0, p, d, tspan, odeFunction, solver, rel_t
 
     if nargin < 8
         error('Esta función debe llamarse con 8 argumentos. Usa desde un script principal.');
+        
     end
 
     if ~isvector(x0) || ~isnumeric(x0)
