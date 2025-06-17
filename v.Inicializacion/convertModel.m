@@ -5,7 +5,7 @@ modelName = 'HIV.mat';
 
 symbols = load(modelName, 'x','f','p','u','w');
 
-convertEQNs(symbols, modelName)
+convertEQNs_SG(symbols, modelName)
 
 %% Si lo hago desde este archivo
 

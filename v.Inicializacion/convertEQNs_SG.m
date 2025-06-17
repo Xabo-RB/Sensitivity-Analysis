@@ -1,4 +1,4 @@
-function  convertEQNs(variables, modelName)
+function  convertEQNs_SG(variables, modelName)
 
     % ECUACIONES
     nEQ = length(variables.f);
