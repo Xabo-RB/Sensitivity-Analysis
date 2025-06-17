@@ -1,4 +1,4 @@
-function dx = HIV(t, x, p, eta)
+function dx = HIV(t, x, p, u1)
     dx = zeros(3,1);
 
     dx(1) = p(1) - x(1)*p(2) - x(1)*x(3)*u1;

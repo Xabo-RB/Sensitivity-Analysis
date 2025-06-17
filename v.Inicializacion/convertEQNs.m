@@ -1,4 +1,4 @@
-function  NewEQstringU = convertEQNs(variables)
+function  convertEQNs(variables, modelName)
 
     % ECUACIONES
     nEQ = length(variables.f);
@@ -94,4 +94,51 @@ function  NewEQstringU = convertEQNs(variables)
             NewEQstringU(j) = newE;
         end
     end
+
+    % Crear archivo para almacenar la ode
+    [~, nombreFuncion, ~] = fileparts(modelName);
+    fid = fopen(nombreFuncion + ".m", "w");
+    if fid == -1
+        error("Prarece que no funciona");
+    end
+    
+    % Si No hay ni entradas conocidas ni desconocidas
+    if isempty(variables.u) && isempty(variables.w)
+        fprintf(fid, "function dx = %s(t, x, p)\n", nombreFuncion);
+        fprintf(fid, "    dx = zeros(%d,1);\n", numel(newEQNS));
+        fprintf(fid, "\n");
+    
+        for i = 1:numel(newEQNS)
+            ecuacion = char(newEQNS(i));
+            fprintf(fid, "    dx(%d) = %s;\n", i, ecuacion);
+        end
+        fprintf(fid, "end\n");
+    % Si hay entradas conocidas o desconocidas
+    else 
+        
+        if ~isempty(variables.u) && isempty(variables.w)
+            % uStrings: vector con u1, u2, u3, ...
+            oracionUs = strjoin(uStrings, ", ");
+            oracionUs = char(oracionUs);
+        elseif ~isempty(variables.w) && isempty(variables.u)
+            oracionUs = strjoin(uStrings, ", ");
+            oracionUs = char(oracionUs);
+        end
+    
+        fprintf(fid, "function dx = %s(t, x, p, %s)\n", nombreFuncion, oracionUs);
+        fprintf(fid, "    dx = zeros(%d,1);\n", numel(NewEQstringU));
+        fprintf(fid, "\n");
+        
+        for i = 1:numel(NewEQstringU)
+            ecuacion = char(NewEQstringU(i));
+            fprintf(fid, "    dx(%d) = %s;\n", i, ecuacion);
+        end
+    
+        fprintf(fid, "end\n");
+    
+    end
+    
+    fclose(fid);
+
+
 end
