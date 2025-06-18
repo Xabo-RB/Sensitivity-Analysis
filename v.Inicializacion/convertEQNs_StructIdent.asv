@@ -97,8 +97,7 @@ for i = 1:numel(lineas_nuevas1)
     ids = regexp(rhs, '\<([a-zA-Z]\w*)\>', 'tokens');
     % Pasa de ser un array de cells, a un único cell array 
     ids = [ids{:}];
-    % Añade los parámetros encontrados en 'linea' a la lista de parámetros,
-    % pueden estar repetidos
+    
     parametros = [parametros, ids];
 
     % Encuentra inputs del tipo nombre(t)
@@ -111,10 +110,11 @@ end
 parametros = unique(parametros);
 inputs   = unique(inputs);
 
-% Eliminar las funciones típicas, 'x', y los inputs
+% Eliminar de paramSet las funciones típicas, 'x', y los inputs
 funciones = {'sin','cos','tan','exp','log','sqrt','abs','min','max','sum','mod'};
 parametros = setdiff(parametros, [funciones, {'x'}, inputs]);
 
+% paramSet contiene solo los parámetros
 
 
 % % lineas es un vector de cells, cada cell contiene un string con cada
