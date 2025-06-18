@@ -24,10 +24,14 @@ else
     error('No se encontró un bloque @ODEmodel en el archivo.');
 end
 
-% Separar las ecuaciones individuales que están separadas por comas
-lineas = strsplit(contenido_odes, ',');
+% Separar las ecuaciones individuales que están separadas por saltos de
+% línea
+% lineas = strsplit(contenido_odes, ','); Esta era por comas
+lineas = regexp(contenido_odes, '\r?\n', 'split');
 
-% 
+% lineas es un vector de cells, cada cell contiene un string con cada
+% ecuación.
+
 for idx = 1:length(lineas)
 
     % Con esto quiero eliminar espacios en blanco, al principio o al final
@@ -36,6 +40,12 @@ for idx = 1:length(lineas)
     % Si hubiera una línea vacía entre las ecuaciones
     if isempty(linea)
         continue;
+    end
+
+    % Si la línea es solo un paréntesis de cierre, detenemos el bucle
+    % entonces se deja de escribir el resto.
+    if strcmp(linea, ')')
+        break;
     end
     
     % Reemplaza derivadas P'(t) por dPdt, T'(t) por dTdt, etc. \w+ coge el
@@ -46,7 +56,7 @@ for idx = 1:length(lineas)
     linea = regexprep(linea, '(\w+)\(t\)', '$1');
 
     % Ir escribiendo de vuelta las ecuaciones en el archivo nuevo
-    fprintf(fid, '%s;\n', linea);
+    fprintf(fid, '%s\n', linea);
 end
 
 % Cerrar archivo
