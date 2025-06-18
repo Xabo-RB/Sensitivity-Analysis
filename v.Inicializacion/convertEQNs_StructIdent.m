@@ -117,6 +117,7 @@ parametros = setdiff(parametros, [funciones, {'x'}, inputs]);
 
 
 
+
 % % lineas es un vector de cells, cada cell contiene un string con cada
 % % ecuación.
 % vars = {};
