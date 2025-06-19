@@ -2,10 +2,13 @@ clear
 clc
 
 modelName = 'HIV.mat';
+modelNameJulia = 'CRN.jl';
 
 symbols = load(modelName, 'x','f','p','u','w');
 
 convertEQNs_SG(symbols, modelName)
+
+convertEQNs_StructIdent(modelNameJulia)
 
 %% Si lo hago desde este archivo
 

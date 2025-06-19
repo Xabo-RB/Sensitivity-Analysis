@@ -1,123 +1,158 @@
-clear 
-clc
+function convertEQNs_StructIdent(modelName)
 
-modelName = 'CRN.jl';
-
-% Crear archivo para almacenar la ode de modelName
-[~, nombreFuncion, ~] = fileparts(modelName);
-fid = fopen(nombreFuncion + ".m", "w");
-if fid == -1
-    error("Parece que no funciona");
-end
-
-% Leer el contenido del archivo .jl
-filetext = fileread(modelName);
-
-% Esto construye un string que sea igual a ode = @ODEmodel( ... )sin importar
-% los espacios y se queda con lo de dentro
-expr = 'ode\s*=\s*@ODEmodel\s*\(([\s\S]*)';
-odes = regexp(filetext, expr, 'tokens', 'dotall');
-
-if ~isempty(odes)
-    contenido_odes = odes{1}{1};
-else
-    error('No se encontró un bloque @ODEmodel en el archivo.');
-end
-
-% Separar las ecuaciones individuales que están separadas por saltos de
-% línea
-% lineas = strsplit(contenido_odes, ','); Esta era por comas
-lineas = regexp(contenido_odes, '\r?\n', 'split');
-
-% Eliminar celdas vacías (cadenas vacías o solo espacios). cellfun aplica
-% esa lógica a cada elemento de líneas. isempty marca true cuando está
-% vacía; entonces true son las celdas vacías, luego lo invierto con ~ y son
-% true las que no están vacías. Poniéndolo dentro de lineas(...) entonces
-% elimina los elementos que son false.
-lineas = lineas(~cellfun(@(x) isempty(strtrim(x)), lineas));
-
-% Buscar el índice de la primera línea que empieza por 'y' (ignorando espacios iniciales)
-idx = find(cellfun(@(x) ~isempty(regexp(strtrim(x), '^y\d+', 'once')), lineas), 1);
-if ~isempty(idx)
-     % Eliminar desde ese índice hasta el final
-    lineas(idx:end) = [];
-end
-
-vars = cell(size(lineas));
-for i = 1:length(lineas)
-    linea = strtrim(lineas{i});
-    % Busca la variable antes del apóstrofe y (t)
-    %  Captura el nombre de la variable:  
-    %                      - empieza con una letra `[a-zA-Z]`  
-    %                      - seguido de letras, números o guiones bajos `[a-zA-Z0-9_]*`  
-    %                       → carácter apóstrofe literal (derivada) 
-    nombres = regexp(linea, "^([a-zA-Z][a-zA-Z0-9_]*)'\(t\)\s*=", 'tokens', 'once');
-    if ~isempty(nombres)
-        % Guarda solo el nombre, sin apóstrofe
-        vars{i} = nombres{1}; 
-    else
-        vars{i} = '';
+    %   modelName = 'CRN.jl';
+    
+    % Crear archivo para almacenar la ode de modelName
+    [~, nombreFuncion, ~] = fileparts(modelName);
+    fid = fopen(nombreFuncion + ".m", "w");
+    if fid == -1
+        error("Parece que no funciona");
     end
+    
+    % Leer el contenido del archivo .jl
+    filetext = fileread(modelName);
+    
+    % Esto construye un string que sea igual a ode = @ODEmodel( ... )sin importar
+    % los espacios y se queda con lo de dentro
+    expr = 'ode\s*=\s*@ODEmodel\s*\(([\s\S]*)';
+    odes = regexp(filetext, expr, 'tokens', 'dotall');
+    
+    if ~isempty(odes)
+        contenido_odes = odes{1}{1};
+    else
+        error('No se encontró un bloque @ODEmodel en el archivo.');
+    end
+    
+    % Separar las ecuaciones individuales que están separadas por saltos de
+    % línea
+    % lineas = strsplit(contenido_odes, ','); Esta era por comas
+    lineas = regexp(contenido_odes, '\r?\n', 'split');
+    
+    % Eliminar celdas vacías (cadenas vacías o solo espacios). cellfun aplica
+    % esa lógica a cada elemento de líneas. isempty marca true cuando está
+    % vacía; entonces true son las celdas vacías, luego lo invierto con ~ y son
+    % true las que no están vacías. Poniéndolo dentro de lineas(...) entonces
+    % elimina los elementos que son false.
+    lineas = lineas(~cellfun(@(x) isempty(strtrim(x)), lineas));
+    
+    % Buscar el índice de la primera línea que empieza por 'y' (ignorando espacios iniciales)
+    idx = find(cellfun(@(x) ~isempty(regexp(strtrim(x), '^y\d+', 'once')), lineas), 1);
+    if ~isempty(idx)
+         % Eliminar desde ese índice hasta el final
+        lineas(idx:end) = [];
+    end
+    
+    vars = cell(size(lineas));
+    for i = 1:length(lineas)
+        linea = strtrim(lineas{i});
+        % Busca la variable antes del apóstrofe y (t)
+        %  Captura el nombre de la variable:  
+        %                      - empieza con una letra `[a-zA-Z]`  
+        %                      - seguido de letras, números o guiones bajos `[a-zA-Z0-9_]*`  
+        %                       → carácter apóstrofe literal (derivada) 
+        nombres = regexp(linea, "^([a-zA-Z][a-zA-Z0-9_]*)'\(t\)\s*=", 'tokens', 'once');
+        if ~isempty(nombres)
+            % Guarda solo el nombre, sin apóstrofe
+            vars{i} = nombres{1}; 
+        else
+            vars{i} = '';
+        end
+    end
+    
+    % arrayfun aplica una función a cada elemento de una matriz. 
+    % Función: toma un índice k y devuelve la cadena 'x(k)'
+    reemplazos = arrayfun(@(k) sprintf('x(%d)', k), 1:numel(vars), 'UniformOutput', false);
+    lineas_nuevas = lineas;
+    
+    for i = 1:numel(vars)
+        % Construir patrón x1\(t\)
+        patron = [vars{i} '\(t\)'];
+        % Aplica en cada elemento de lineas_nuevas la substitución de patron ->
+        % reemplazos.
+        lineas_nuevas = cellfun(@(str) regexprep(str, patron, reemplazos{i}), lineas_nuevas, 'UniformOutput', false);
+    end
+    
+    reemplazos = arrayfun(@(k) sprintf('dx(%d)', k), 1:numel(vars), 'UniformOutput', false);
+    derivs = cellfun(@(v) [v, '''\(t\)'], vars, 'UniformOutput', false); 
+    lineas_nuevas1 = lineas_nuevas;
+    
+    for i = 1:numel(vars)
+        lineas_nuevas1 = cellfun(@(str) regexprep(str, derivs{i}, reemplazos{i}), lineas_nuevas1, 'UniformOutput', false);
+    end
+    
+    
+    parametros = {}; 
+    inputs = {};   
+    
+    for i = 1:numel(lineas_nuevas1)
+        linea = lineas_nuevas1{i};
+    
+        % Elimino el lado derecho, si no hubiera no pasa nada, seguimos!
+        ladoDcho = regexp(linea, '=\s*(.*?)[,;]?$', 'tokens', 'once');
+        if isempty(ladoDcho), continue; end
+        rhs = ladoDcho{1};
+    
+        % Encuentra todas las palabras que no sean x y no estén seguidas de un paréntesis
+        ids = regexp(rhs, '\<([a-zA-Z]\w*)\>', 'tokens');
+        % Pasa de ser un array de cells, a un único cell array 
+        ids = [ids{:}];
+        % Añade los parámetros encontrados en 'linea' a la lista de parámetros,
+        % pueden estar repetidos
+        parametros = [parametros, ids];
+    
+        % Encuentra inputs del tipo nombre(t)
+        inp = regexp(rhs, '\<([a-zA-Z]\w*)\(t\)', 'tokens');
+        inp = [inp{:}];
+        inputs = [inputs, inp];
+    end
+    
+    % Quitar duplicados
+    parametros = unique(parametros);
+    inputs   = unique(inputs);
+    
+    % Eliminar las funciones típicas, 'x', y los inputs
+    funciones = {'sin','cos','tan','exp','log','sqrt','abs','min','max','sum','mod'};
+    parametros = setdiff(parametros, [funciones, {'x'}, inputs]);
+    
+    % Crea la cell que va a contener p(1), p(2) hasta p(nºpams)
+    reemplazos_param = arrayfun(@(k) sprintf('p(%d)', k), 1:numel(parametros), 'UniformOutput', false);
+    lineas_nuevas2 = lineas_nuevas1; 
+    
+    
+    for i = 1:numel(lineas_nuevas2)
+        linea = lineas_nuevas2{i};
+        for j = 1:numel(parametros)
+    
+            % \\ asegura coincidencia exacta del nombre.
+            nombreParam = sprintf('\\<%s\\>', parametros{j});
+            linea = regexprep(linea, nombreParam, reemplazos_param{j});
+    
+        end
+        lineas_nuevas2{i} = linea;
+    end
+    
+    nVars = numel(lineas_nuevas2);
+    
+    % Construir cabecera de función según si hay o no inputs
+    if isempty(inputs)
+        fprintf(fid, 'function dx = %s(t, x, p)\n', nombreFuncion);
+    else
+        fprintf(fid, 'function dx = %s(t, x, p, %s)\n', nombreFuncion, inputs_str);
+    end
+    
+    fprintf(fid, '    dx = zeros(%d,1);\n', nVars);
+    
+    for i = 1:nVars
+        % Quita coma final y añade punto y coma
+        linea = regexprep(lineas_nuevas2{i}, ',$', ';');
+        % Indenta y escribe la línea
+        fprintf(fid, '    %s\n', linea);
+    end
+    
+    fprintf(fid, 'end\n');
+    fclose(fid);
+
 end
-
-% arrayfun aplica una función a cada elemento de una matriz. 
-% Función: toma un índice k y devuelve la cadena 'x(k)'
-reemplazos = arrayfun(@(k) sprintf('x(%d)', k), 1:numel(vars), 'UniformOutput', false);
-lineas_nuevas = lineas;
-
-for i = 1:numel(vars)
-    % Construir patrón x1\(t\)
-    patron = [vars{i} '\(t\)'];
-    % Aplica en cada elemento de lineas_nuevas la substitución de patron ->
-    % reemplazos.
-    lineas_nuevas = cellfun(@(str) regexprep(str, patron, reemplazos{i}), lineas_nuevas, 'UniformOutput', false);
-end
-
-reemplazos = arrayfun(@(k) sprintf('dx(%d)', k), 1:numel(vars), 'UniformOutput', false);
-derivs = cellfun(@(v) [v, '''\(t\)'], vars, 'UniformOutput', false); 
-lineas_nuevas1 = lineas_nuevas;
-
-for i = 1:numel(vars)
-    lineas_nuevas1 = cellfun(@(str) regexprep(str, derivs{i}, reemplazos{i}), lineas_nuevas1, 'UniformOutput', false);
-end
-
-
-parametros = {}; 
-inputs = {};   
-
-for i = 1:numel(lineas_nuevas1)
-    linea = lineas_nuevas1{i};
-
-    % Elimino el lado derecho, si no hubiera no pasa nada, seguimos!
-    ladoDcho = regexp(linea, '=\s*(.*?)[,;]?$', 'tokens', 'once');
-    if isempty(ladoDcho), continue; end
-    rhs = ladoDcho{1};
-
-    % Encuentra todas las palabras que no sean x y no estén seguidas de un paréntesis
-    ids = regexp(rhs, '\<([a-zA-Z]\w*)\>', 'tokens');
-    % Pasa de ser un array de cells, a un único cell array 
-    ids = [ids{:}];
-    % Añade los parámetros encontrados en 'linea' a la lista de parámetros,
-    % pueden estar repetidos
-    parametros = [parametros, ids];
-
-    % Encuentra inputs del tipo nombre(t)
-    inp = regexp(rhs, '\<([a-zA-Z]\w*)\(t\)', 'tokens');
-    inp = [inp{:}];
-    inputs = [inputs, inp];
-end
-
-% Quitar duplicados
-parametros = unique(parametros);
-inputs   = unique(inputs);
-
-% Eliminar las funciones típicas, 'x', y los inputs
-funciones = {'sin','cos','tan','exp','log','sqrt','abs','min','max','sum','mod'};
-parametros = setdiff(parametros, [funciones, {'x'}, inputs]);
-
-
-
-
 % % lineas es un vector de cells, cada cell contiene un string con cada
 % % ecuación.
 % vars = {};
