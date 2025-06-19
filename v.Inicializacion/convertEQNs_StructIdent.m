@@ -80,7 +80,7 @@ function convertEQNs_StructIdent(modelName)
         lineas_nuevas1 = cellfun(@(str) regexprep(str, derivs{i}, reemplazos{i}), lineas_nuevas1, 'UniformOutput', false);
     end
     
-    
+    % Así defino que son cell
     parametros = {}; 
     inputs = {};   
     
@@ -91,6 +91,11 @@ function convertEQNs_StructIdent(modelName)
         ladoDcho = regexp(linea, '=\s*(.*?)[,;]?$', 'tokens', 'once');
         if isempty(ladoDcho), continue; end
         rhs = ladoDcho{1};
+
+        % Encuentra inputs del tipo nombre(t)
+        inp = regexp(rhs, '\<([a-zA-Z]\w*)\(t\)', 'tokens');
+        inp = [inp{:}];
+        inputs = [inputs, inp];
     
         % Encuentra todas las palabras que no sean x y no estén seguidas de un paréntesis
         ids = regexp(rhs, '\<([a-zA-Z]\w*)\>', 'tokens');
@@ -99,11 +104,8 @@ function convertEQNs_StructIdent(modelName)
         % Añade los parámetros encontrados en 'linea' a la lista de parámetros,
         % pueden estar repetidos
         parametros = [parametros, ids];
-    
-        % Encuentra inputs del tipo nombre(t)
-        inp = regexp(rhs, '\<([a-zA-Z]\w*)\(t\)', 'tokens');
-        inp = [inp{:}];
-        inputs = [inputs, inp];
+        
+
     end
     
     % Quitar duplicados
@@ -111,7 +113,7 @@ function convertEQNs_StructIdent(modelName)
     inputs   = unique(inputs);
     
     % Eliminar las funciones típicas, 'x', y los inputs
-    funciones = {'sin','cos','tan','exp','log','sqrt','abs','min','max','sum','mod'};
+    funciones = {'sin','cos','tan','exp','log','sqrt','abs','min','max','sum','mod','t'};
     parametros = setdiff(parametros, [funciones, {'x'}, inputs]);
     
     % Crea la cell que va a contener p(1), p(2) hasta p(nºpams)
@@ -131,8 +133,15 @@ function convertEQNs_StructIdent(modelName)
         lineas_nuevas2{i} = linea;
     end
     
+    % Elimina (t), denería quedar sólo los restantes de los inputs
+    lineas_nuevas2 = cellfun(@(str) regexprep(str, '\(t\)', ''), lineas_nuevas2, 'UniformOutput', false);
+
     nVars = numel(lineas_nuevas2);
-    
+
+    % Este es el string con las entradas escritas unidas con coma, para
+    % luego poner en el nombre de la función
+    inputs_str = strjoin(inputs, ', '); 
+
     % Construir cabecera de función según si hay o no inputs
     if isempty(inputs)
         fprintf(fid, 'function dx = %s(t, x, p)\n', nombreFuncion);
