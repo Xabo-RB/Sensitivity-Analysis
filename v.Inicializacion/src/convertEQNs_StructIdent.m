@@ -4,13 +4,14 @@ function convertEQNs_StructIdent(modelName)
     
     % Crear archivo para almacenar la ode de modelName
     [~, nombreFuncion, ~] = fileparts(modelName);
-    fid = fopen(nombreFuncion + ".m", "w");
+    rutaArchivo = fullfile('models', [nombreFuncion, '.m']);
+    fid = fopen(rutaArchivo, "w");
     if fid == -1
         error("Parece que no funciona");
     end
     
     % Leer el contenido del archivo .jl
-    filetext = fileread(modelName);
+    filetext = fileread(fullfile('original_files', modelName));
     
     % Esto construye un string que sea igual a ode = @ODEmodel( ... )sin importar
     % los espacios y se queda con lo de dentro

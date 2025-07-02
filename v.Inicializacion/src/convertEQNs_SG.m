@@ -97,7 +97,8 @@ function  convertEQNs_SG(variables, modelName)
 
     % Crear archivo para almacenar la ode
     [~, nombreFuncion, ~] = fileparts(modelName);
-    fid = fopen(nombreFuncion + ".m", "w");
+    rutaArchivo = fullfile('models', [nombreFuncion, '.m']);
+    fid = fopen(rutaArchivo, "w");
     if fid == -1
         error("Prarece que no funciona");
     end
