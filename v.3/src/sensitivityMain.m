@@ -1,4 +1,4 @@
- function solution = sensitivityMain(x0, p, d, tspan, odeFunction)
+function solution = sensitivityMain(x0, p, d, tspan, odeFunction, solver, rel_tol, abs_tol)
     % sensitivityMain: Computes the sensitivities of a dynamic system 
     % with respect to its parameters.
     %

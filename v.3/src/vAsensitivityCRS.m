@@ -1,6 +1,6 @@
 % === GENERAL CONF. === %
 model_name = 'CRS';
-ode_function = @CARTFunction;  % funciónd del modelo a analizar
+ode_function = @CRSFunction;  % función del modelo a analizar
 
 % Parameters and respective names of the model
 param_values = [1, 0.1, 0.3, 1, 0.01, 10^-8, 1.5, 0.01, 0.1, 4.25e12, 1, 1e3, 1e8, 1e10, 5e9, 0.1, 1.0, 1e-8, 1.0, 0.01, 1e-11, 1e-12, 1e-11];
@@ -8,7 +8,7 @@ param_names = {'η', 'μ_I', 'ν', 'κ', 'ϵ', 'θ', 'μ_E', 'μ_P', 'ρ', 'K', 
 
 % Initial values and names for the state variables
 x0 = complex([1.33e6, 10, 10, 1e8, 2.5e5, 1e11, 10, 1], 0);
-state_names = {'T_N', 'T_A', 'T_E', 'C_N', 'C_A', 'M', 'I', 'IL-6'};
+state_names = {'C_I', 'C_E', 'C_P', 'T_P','T_N', 'M_a', 'M_i', 'IL_6'};
 
 % Index of the State Variable that is wanted to be studied
 state_index = 8;  
@@ -28,7 +28,7 @@ solver = @ode23s;  % Change for @ode45, @ode15s...
 iterations = 50;
 
 % Output Folder
-output_folder = fullfile(pwd, ['Sensitivity_Images_' model_name]); 
+output_folder = fullfile(pwd, ['Sensitivity_Images_' model_name '_ode23s_1e-6_1e-9']); 
 if ~exist(output_folder, 'dir')
     mkdir(output_folder);
 end
@@ -41,7 +41,7 @@ param_values_original = param_values;
 x0_real = real(x0);
 
 % === LOOP OF PARAMETERS TO ANALIZE === %
-for pI = 1:23
+for pI = 1:3
     tic
     rango_max_param = 5 * param_values_original(pI);
     CARTVect = linspace(0, rango_max_param, iterations);

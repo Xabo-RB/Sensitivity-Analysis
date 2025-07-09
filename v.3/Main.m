@@ -2,6 +2,7 @@ clear
 clc
 
 addpath('src');
+addpath('models');
 
 %% WHICH MODEL DO YOU WANNA USE
 
