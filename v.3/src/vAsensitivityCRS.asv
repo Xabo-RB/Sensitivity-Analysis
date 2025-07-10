@@ -22,16 +22,15 @@ tspan = 0.0:step_size:t_end;
 d = 1.0e-16;
 
 disp('Solver tolerances:');
-
-rel_tol_input = input('  Enter Relative Tolerance (type X for default = 1e-9): ', 's');
-
+disp('Tolerances:');
+rel_tol_input = input('  ➤ Enter Relative Tolerance (type X for default = 1e-9): ', 's');
 if strcmpi(rel_tol_input, 'X')
     rel_tol = 1e-9;
 else
     rel_tol = str2double(rel_tol_input);
 end
 
-abs_tol_input = input('  Enter Absolute Tolerance (type X for default = 1e-12): ', 's');
+abs_tol_input = input('  ➤ Enter Absolute Tolerance (type X for default = 1e-12): ', 's');
 if strcmpi(abs_tol_input, 'X')
     abs_tol = 1e-12;
 else
