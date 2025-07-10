@@ -13,12 +13,12 @@ state_names = {'C_I', 'C_E', 'C_P', 'T_P','T_N', 'M_a', 'M_i', 'IL_6'};
 % Index of the State Variable that is wanted to be studied
 state_index = 8;  
 
-% Simulation Time options
+% === SIMULATION TIME OPTIONS === %
 step_size = 0.005; 
 t_end = 50; 
 tspan = 0.0:step_size:t_end;
 
-% Tolerances and solver
+% === TOLERANCES OPTIONS === %
 d = 1.0e-16;
 
 disp('Solver tolerances:');
@@ -38,9 +38,7 @@ else
     abs_tol = str2double(abs_tol_input);
 end
 
-
-
-% Solver
+% === SOLVER OPTIONS === %
 disp('ODE Solver options:');
 disp('  1 - ode45');
 disp('  2 - ode23s');
@@ -59,6 +57,7 @@ switch solver_choice
         solver = @ode15s;
 end
 
+solver_name = func2str(solver);
 
 % Iterations of the sensitivity study
 iterations = 50;
@@ -75,8 +74,9 @@ disp('  1 - Normalized (default)');
 disp('  2 - Unnormalized');
 sens_choice = input('Select sensitivity type (1/2): ');
 
-% Output Folder
-output_folder = fullfile(pwd, ['Sensitivity_Images_' model_name '_ode23s_1e-6_1e-9']); 
+% === OUTPUT FOLDER OPTIONS === %
+output_folder = fullfile(pwd, ...
+    ['Sensitivity_Images_' model_name '_' solver_name '_' num2str(rel_tol) '_' num2str(abs_tol)]);
 if ~exist(output_folder, 'dir')
     mkdir(output_folder);
 end
