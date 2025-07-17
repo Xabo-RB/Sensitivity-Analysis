@@ -30,5 +30,10 @@ rel_tol = 1e-9;
 abs_tol = 1e-12;
 
 % === SOLVER AND STEP ===
-solver = @ode23s;
+solver = @ode45;
 d = 1.0e-16;
+
+% === VISUALIZATION OPTIONS ===
+visualization_choice = 1;   %   1 - Results are shown in Heatmap form, GRAY scale.
+                            %   2 - Results are shown in Heatmap form, INFERNO scale.
+                            %   3 - Results are shown in CONTOUR LINES form.

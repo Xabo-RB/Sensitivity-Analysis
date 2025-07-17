@@ -12,7 +12,6 @@ end
 
 param_values_original = param_values;
 x0_real = real(x0);
-iterations = 50;
 
 % === LOOP OF PARAMETERS TO ANALYZE ===
 for pI = 1:1
@@ -21,7 +20,7 @@ for pI = 1:1
     CARTVect = linspace(0, rango_max_param, iterations);
     results_matrix = zeros(iterations, length(tspan));
 
-    parfor i = 1:iterations
+    parfor i = 1:t_end
         local_params = param_values_original;
         local_params(pI) = CARTVect(i);
         p = complex(local_params, 0);
