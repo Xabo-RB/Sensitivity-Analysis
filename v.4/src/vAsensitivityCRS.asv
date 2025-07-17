@@ -15,7 +15,7 @@ x0_real = real(x0);
 iterations = 50;
 
 % === LOOP OF PARAMETERS TO ANALYZE ===
-for pI = 1:1
+for pI = 1:length(param_values)
     tic
     rango_max_param = 5 * param_values_original(pI);
     CARTVect = linspace(0, rango_max_param, iterations);
