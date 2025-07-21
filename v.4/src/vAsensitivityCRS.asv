@@ -64,7 +64,7 @@ for pI = 1:2
     % close(figura_log);
     % 
     % disp(['Generated figures for parameter ' num2str(pI) ' of ' num2str(length(param_values))]);
-    PlotResults(results_matrix, tspan, CARTVect, pI, state_index, modelname, param_names, state_names, solver, rel_tol, abs_tol, visualization_choice);
+    run(PlotResults;
     disp(['Generated figures for parameter ' num2str(pI) ' of ' num2str(length(param_values))]);
     toc
 end
