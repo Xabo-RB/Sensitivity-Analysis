@@ -9,22 +9,25 @@ function plotResults(results_matrix, tspan, CARTVect, pI, state_index, modelname
     end
     
     % === PLOT FIGURES (NORMAL AND LOG SCALE) ===
-    
+    matrix_to_plot = abs(results_matrix);
+
     % === NORMAL SCALE FIGURE ===
     figura_normal = figure('Visible', 'off', 'Position', [100, 100, 600, 400]);
     switch visualization_choice
         case 1
-            contourf(tspan, CARTVect, results_matrix, 10, 'LineColor', 'k');
-            colormap(gray);
+            contourf(tspan, CARTVect, matrix_to_plot, 10, 'LineColor', 'k');
+            colormap(flipud(gray));
+            cb = colorbar;
+            cb.Label.String = 'Sensitivity';
         case 2
             inferno = csvread('inferno_colormap.csv');
-            contourf(tspan, CARTVect, results_matrix, 10, 'LineColor', 'k');
+            contourf(tspan, CARTVect, matrix_to_plot, 10, 'LineColor', 'k');
             colormap(inferno);
+            cb = colorbar;
+            cb.Label.String = 'Sensitivity';
         case 3
-            contour(tspan, CARTVect, results_matrix, 10, 'LineColor', 'k');
+            contour(tspan, CARTVect, matrix_to_plot, 10, 'LineColor', 'k');
     end
-    cb = colorbar;
-    cb.Label.String = 'Sensitivity';
     xlabel('Time (s)', 'FontSize', 18);
     ylabel(param_names{pI}, 'FontSize', 18, 'Rotation', 0);
     title([modelname ': Sensitivity of ' state_names{state_index} ' to ' param_names{pI}], ...
@@ -37,21 +40,23 @@ function plotResults(results_matrix, tspan, CARTVect, pI, state_index, modelname
     close(figura_normal);
     
     % === LOG SCALE FIGURE ===
-    results_matrix_log = log10(abs(results_matrix));
+    results_matrix_log = abs(log10(results_matrix));
     figura_log = figure('Visible', 'off', 'Position', [100, 100, 600, 400]);
     switch visualization_choice
         case 1
             contourf(tspan, CARTVect, results_matrix_log, 10, 'LineColor', 'k');
             colormap(gray);
+            cb = colorbar;
+            cb.Label.String = 'Sensitivity';
         case 2
             inferno = csvread('inferno_colormap.csv');
             contourf(tspan, CARTVect, results_matrix_log, 10, 'LineColor', 'k');
             colormap(inferno);
+            cb = colorbar;
+            cb.Label.String = 'Sensitivity';
         case 3
             contour(tspan, CARTVect, results_matrix_log, 10, 'LineColor', 'k');
     end
-    cb = colorbar;
-    cb.Label.String = 'Sensitivity';
     xlabel('Time (s)', 'FontSize', 18);
     ylabel(param_names{pI}, 'FontSize', 18, 'Rotation', 0);
     title([modelname ': Sensitivity of ' state_names{state_index} ' (log) to ' param_names{pI}], ...
