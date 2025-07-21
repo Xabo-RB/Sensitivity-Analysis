@@ -40,7 +40,7 @@ function plotResults(results_matrix, tspan, CARTVect, pI, state_index, modelname
     close(figura_normal);
     
     % === LOG SCALE FIGURE ===
-    results_matrix_log = abs(log10(results_matrix));
+    results_matrix_log = log10(results_matrix);
     figura_log = figure('Visible', 'off', 'Position', [100, 100, 600, 400]);
     switch visualization_choice
         case 1
