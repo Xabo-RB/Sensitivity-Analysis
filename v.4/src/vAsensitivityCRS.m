@@ -1,10 +1,4 @@
-% === OUTPUT FOLDER ===
-solver_name = func2str(solver);
-output_folder = fullfile(pwd, ...
-    ['Sensitivity_Images_' modelname '_' solver_name '_' num2str(rel_tol) '_' num2str(abs_tol)]);
-if ~exist(output_folder, 'dir')
-    mkdir(output_folder);
-end
+% === SENSITIVITY CODE ===
 
 if isempty(gcp('nocreate'))
     parpool;
@@ -14,7 +8,7 @@ param_values_original = param_values;
 x0_real = real(x0);
 
 % === LOOP OF PARAMETERS TO ANALYZE ===
-for pI = 5:10
+for pI = 1:3
     tic
     rango_max_param = 5 * param_values_original(pI);
     CARTVect = linspace(0, rango_max_param, t_end);
@@ -64,7 +58,7 @@ for pI = 5:10
     % close(figura_log);
     % 
     % disp(['Generated figures for parameter ' num2str(pI) ' of ' num2str(length(param_values))]);
-    PlotResults(results_matrix, tspan, CARTVect, pI, state_index, modelname, param_names, state_names, solver, rel_tol, abs_tol, visualization_choice);
+    PlotResults(results_matrix, ode_function, param_values, x0, tspan, CARTVect, pI, state_index, modelname, param_names, state_names, solver, rel_tol, abs_tol, visualization_choice);
     disp(['Generated figures for parameter ' num2str(pI) ' of ' num2str(length(param_values))]);
     toc
 end
