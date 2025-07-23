@@ -5,7 +5,7 @@ ODE function: CRSFunction.m
 Solver: ode45
 Relative Tolerance: 1e-09
 Absolute Tolerance: 1e-12
-Visualization: contour (option 3)
+Visualization: inferno (option 2)
 State analyzed: IL_6 (index 8)
 Simulation step size: 0.005
 Simulation end time: 50

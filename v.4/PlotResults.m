@@ -1,4 +1,4 @@
-function plotResults(results_matrix, ode_function, param_values, x0, tspan, CARTVect, pI, state_index, modelname, param_names, state_names, solver, rel_tol, abs_tol, visualization_choice)
+function plotResults(results_matrix, ode_function, param_values, x0, tspan, ModelVect, pI, state_index, modelname, param_names, state_names, solver, rel_tol, abs_tol, visualization_choice)
 
     switch visualization_choice
         case 1
@@ -53,13 +53,13 @@ function plotResults(results_matrix, ode_function, param_values, x0, tspan, CART
     figura_normal = figure('Visible', 'off', 'Position', [100, 100, 600, 400]);
     switch visualization_choice
         case 1
-            contourf(tspan, CARTVect, matrix_to_plot, 10, 'LineColor', 'k');
+            contourf(tspan, ModelVect, matrix_to_plot, 10, 'LineColor', 'k');
             colormap(gray);
             cb = colorbar;
             cb.Label.String = 'Sensitivity';
         case 2
             inferno = csvread('inferno_colormap.csv');
-            contourf(tspan, CARTVect, matrix_to_plot, 10, 'LineColor', 'k');
+            contourf(tspan, ModelVect, matrix_to_plot, 10, 'LineColor', 'k');
             colormap(inferno);
             cb = colorbar;
             cb.Label.String = 'Sensitivity';
@@ -82,13 +82,13 @@ function plotResults(results_matrix, ode_function, param_values, x0, tspan, CART
     figura_log = figure('Visible', 'off', 'Position', [100, 100, 600, 400]);
     switch visualization_choice
         case 1
-            contourf(tspan, CARTVect, real(results_matrix_log), 10, 'LineColor', 'k');
+            contourf(tspan, ModelVect, real(results_matrix_log), 10, 'LineColor', 'k');
             colormap(gray);
             cb = colorbar;
             cb.Label.String = 'Sensitivity';
         case 2
             inferno = csvread('inferno_colormap.csv');
-            contourf(tspan, CARTVect, real(results_matrix_log), 10, 'LineColor', 'k');
+            contourf(tspan, ModelVect, real(results_matrix_log), 10, 'LineColor', 'k');
             colormap(inferno);
             cb = colorbar;
             cb.Label.String = 'Sensitivity';

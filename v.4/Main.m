@@ -32,7 +32,7 @@ which = input(['Select mode:\n' ...
 % USE AN ALREADY EXISTING MODEL ('models' folder)
 if strcmpi(which, 'A')
     options
-    vAsensitivityCRS
+    Sensitivity
 
 % IMPLEMENT A NEW MODEL, FROM .MAT (StrikeGoldd) FILE OR FROM StructuralIdentifiability.jl or SIAN.jl
 % These files may be storaged in the 'original_files' folder
