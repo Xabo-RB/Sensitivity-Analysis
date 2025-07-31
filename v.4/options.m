@@ -26,8 +26,8 @@ param_names = {'p1', 'p2', 'p3', 'p4', 'p5'};
 x0 = complex([2e6, 0, 2e6], 0);
 state_names = {'C_T', 'C_M', 'T'};
 
-x0 = complex([0, 0, 0], 0);
-state_names = {'h', 'i', 'v'};
+x0 = complex([1000, 0, 0], 0);
+state_names = {'Tu', 'Ti', 'v'};
 
 
 % === STATE TO ANALYZE ===
