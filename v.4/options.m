@@ -7,7 +7,9 @@
 %ode_function  = @CRSFunction;   %   Name of the function that contains the ODEs of the model you want to analyze. 
 
 modelname     = 'HCART';          %   Acronym given to the model.
-ode_function  = @HCARTFunction;
+%ode_function  = @HCARTFunction;
+ode_function  = str2func(modelname);
+
 
 % === PARAMETER CONFIGURATION ===
 %param_values = [1, 0.1, 0.3, 1, 0.01, 10^-8, 1.5, 0.01, 0.1, 4.25e12, 1, 1e3, 1e8, 1e10, 5e9, 0.1, 1.0, 1e-8, 1.0, 0.01, 1e-11, 1e-12, 1e-11];   
