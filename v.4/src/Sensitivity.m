@@ -8,9 +8,10 @@ end
 
 param_values_original = param_values;
 x0_real = real(x0);
+num_params = length(param_values);
 
 % === LOOP OF PARAMETERS TO ANALYZE ===
-for pI = 1:5  %%%%% changeee
+for pI = 1:num_params  %%%%% changeee
     tic
     rango_max_param = 5 * param_values_original(pI);
     ModelVect = linspace(0, rango_max_param, t_end);
