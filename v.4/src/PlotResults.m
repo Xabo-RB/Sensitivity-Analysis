@@ -1,4 +1,4 @@
-function plotResults(results_matrix, ode_function, param_values, x0, tspan, ModelVect, pI, state_index, modelname, param_names, state_names, solver, rel_tol, abs_tol, visualization_choice)
+function PlotResults(results_matrix, ode_function, param_values, x0, tspan, ModelVect, pI, state_index, modelname, param_names, state_names, solver, rel_tol, abs_tol, visualization_choice)
 
     switch visualization_choice
         case 1
@@ -9,10 +9,18 @@ function plotResults(results_matrix, ode_function, param_values, x0, tspan, Mode
             %name_visual = 'contour';
     end
 
+    % % === OUTPUT FOLDER ===
+    % solver_name = func2str(solver);
+    % output_folder = fullfile(pwd, 'results', ...
+    %     ['Sensitivity_Images_' modelname '_' solver_name '_' num2str(rel_tol) '_' num2str(abs_tol) '_' name_visual]);
+    % if ~exist(output_folder, 'dir')
+    %     mkdir(output_folder);
+    % end
+
     % === OUTPUT FOLDER ===
     solver_name = func2str(solver);
     output_folder = fullfile(pwd, 'results', ...
-        ['Sensitivity_Images_' modelname '_' solver_name '_' num2str(rel_tol) '_' num2str(abs_tol) '_' name_visual]);
+        ['Sensitivity_Images_' modelname '_' name_visual]);
     if ~exist(output_folder, 'dir')
         mkdir(output_folder);
     end
