@@ -11,7 +11,7 @@ function plotResults(results_matrix, ode_function, param_values, x0, tspan, Mode
 
     % === OUTPUT FOLDER ===
     solver_name = func2str(solver);
-    output_folder = fullfile(pwd, ...
+    output_folder = fullfile(pwd, 'results', ...
         ['Sensitivity_Images_' modelname '_' solver_name '_' num2str(rel_tol) '_' num2str(abs_tol) '_' name_visual]);
     if ~exist(output_folder, 'dir')
         mkdir(output_folder);
