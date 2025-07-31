@@ -3,20 +3,20 @@
 % =========================================================================
 
 % === MODEL SELECTION ===
-%modelname     = 'CRS';          %   Acronym given to the model.
-%ode_function  = @CRSFunction;   %   Name of the function that contains the ODEs of the model you want to analyze. 
-
-modelname     = 'HCART';          %   Acronym given to the model.
-%ode_function  = @HCARTFunction;
-ode_function  = str2func(modelname);
+%   Acronym given to the model in the file in models folder
+modelname     = 'HIV';          
 
 
 % === PARAMETER CONFIGURATION ===
+
 %param_values = [1, 0.1, 0.3, 1, 0.01, 10^-8, 1.5, 0.01, 0.1, 4.25e12, 1, 1e3, 1e8, 1e10, 5e9, 0.1, 1.0, 1e-8, 1.0, 0.01, 1e-11, 1e-12, 1e-11];   
 %param_names = {'η', 'μ_I', 'ν', 'κ', 'ϵ', 'θ', 'μ_E', 'μ_P', 'ρ', 'K', 'γ', 'A', 'B', 'C', 'σ_M', 'δ_M', 'σ_I', 'α', 'δ_I', 'g_0', 'β_B', 'β_K', 'β_C'};
 
-param_values =[0.265, 0.35, 0.15, 6e-6, 4.5e-8, 0.005, 0.0565, 1.404e-12, 3.72e-6];
-param_names = {'φ', 'ρ', 'ϵ', 'θ', 'α', 'μ', 'r', 'b', 'γ'};
+% param_values =[0.265, 0.35, 0.15, 6e-6, 4.5e-8, 0.005, 0.0565, 1.404e-12, 3.72e-6];
+% param_names = {'φ', 'ρ', 'ϵ', 'θ', 'α', 'μ', 'r', 'b', 'γ'};
+
+param_values =[0.265, 0.35, 0.15, 0.2, 0.5];
+param_names = {'p1', 'p2', 'p3', 'p4', 'p5'};
 
 
 % === INITIAL CONDITIONS ===
@@ -25,6 +25,9 @@ param_names = {'φ', 'ρ', 'ϵ', 'θ', 'α', 'μ', 'r', 'b', 'γ'};
 
 x0 = complex([2e6, 0, 2e6], 0);
 state_names = {'C_T', 'C_M', 'T'};
+
+x0 = complex([0, 0, 0], 0);
+state_names = {'h', 'i', 'v'};
 
 
 % === STATE TO ANALYZE ===

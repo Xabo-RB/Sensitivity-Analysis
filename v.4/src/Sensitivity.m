@@ -1,5 +1,7 @@
 % === SENSITIVITY CODE ===
 
+ode_function  = str2func(modelname);
+
 if isempty(gcp('nocreate'))
     parpool;
 end
@@ -8,7 +10,7 @@ param_values_original = param_values;
 x0_real = real(x0);
 
 % === LOOP OF PARAMETERS TO ANALYZE ===
-for pI = 1:9  %%%%% changeee
+for pI = 1:5  %%%%% changeee
     tic
     rango_max_param = 5 * param_values_original(pI);
     ModelVect = linspace(0, rango_max_param, t_end);
