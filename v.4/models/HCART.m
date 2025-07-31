@@ -1,4 +1,4 @@
-function dx = HCARTFunction(t, x, p)
+function dx = HCART(t, x, p)
     dx = zeros(3,1);
 
     dx(1) = p(1) * x(1) - p(2) * x(1) + p(4) * x(3) * x(2) - p(5) * x(3) * x(1);

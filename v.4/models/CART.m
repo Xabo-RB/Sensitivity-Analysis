@@ -1,4 +1,4 @@
-function dx = CARTFunction(t, x, p)
+function dx = CART(t, x, p)
     dx = zeros(8,1);
 
     dx(1) = -p(1) * (x(4) / (p(12) + x(4))) * x(1) - p(2) * x(1);
