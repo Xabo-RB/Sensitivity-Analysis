@@ -22,14 +22,3 @@ step_size = 0.05;
 t_end     = 50;
 tspan     = 0.0:step_size:t_end;
 
-% === TOLERANCES ===
-rel_tol = 1e-9;                 %   Relative Tolerance.   
-abs_tol = 1e-12;                %   Absolute Tolerance.
-
-% === SOLVER AND STEP ===
-solver = @ode15s;                %   Some examples: @ode15, @ode23s, @ode45...
-d = 1.0e-16;
-
-% === VISUALIZATION OPTIONS ===
-visualization_choice = 2;       %   1 - Results are shown in Heatmap form, GRAY scale.
-                                %   2 - Results are shown in Heatmap form, INFERNO scale.

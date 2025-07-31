@@ -1,6 +1,15 @@
 % === SENSITIVITY CODE ===
 
+% Create the name of the function handle type variable that is going to analyse
 ode_function  = str2func(modelname);
+
+% Run the corresponding options file
+options_script = [modelname '_options'];
+if exist([options_script '.m'], 'file')
+    eval(options_script);
+else
+    error(['File ' options_script '.m not found']);
+end
 
 if isempty(gcp('nocreate'))
     parpool;
