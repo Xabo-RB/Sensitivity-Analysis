@@ -4,45 +4,30 @@ clc
 addpath('src');
 addpath('models');
 
-%% WHICH MODEL DO YOU WANNA USE
+%% USER-DEFINED
 
-which = input(['Select mode:\n' ...
-    '  A  - Use an already existing model (in "models" folder)\n' ...
-    '  SG - Implement a new model from .MAT (StrikeGoldd) file\n' ...
-    '  JL - Implement a new model from StructuralIdentifiability.jl or SIAN.jl\n' ...
-    'Note: Files for SG and JL may be stored in the "original_files" folder.\n' ...
-    'Enter your choice (A, SG, JL): '], 's');
+convert_model_or_RunSensitivities = 'run'; % 'convert' or 'run'
 
-% --->      
-%   A  - USE AN ALREADY EXISTING MODEL (in ''models'' folder)
-%   SG - IMPLEMENT A NEW MODEL from .MAT (StrikeGoldd) file
-%   JL - IMPLEMENT A NEW MODEL from StructuralIdentifiability.jl or SIAN.jl
-% --->      
-% Note: Files for SG and JL may be stored in the 'original_files' folder.
-%   which = 'A';   % Existing model (models folder)
-%   which = 'SG';  % New model from .mat file
-%   which = 'JL';  % New model from .jl file
+% ---------------------------------------------------------------
+% -------------- CONVERT A MODEL TO LATTER ANALYSE --------------
+% ---------------------------------------------------------------
 
-% If which = 'SG'
-    modelName = 'HIV.mat';
-% If which = 'JL'
-    modelNameJulia = 'CRN.jl';
+% CONVERT A JULIA MODEL FROM StructuralIdentifiability and SIAN packages
+% : https://github.com/SciML/StructuralIdentifiability.jl
+% : https://github.com/alexeyovchinnikov/SIAN-Julia
 
-%% CODE
-% USE AN ALREADY EXISTING MODEL ('models' folder)
-if strcmpi(which, 'A')
-    options
-    Sensitivity
+    % Example:
+    % modelNameJulia = 'CRN.jl';
+    modelNameJulia = [];
 
-% IMPLEMENT A NEW MODEL, FROM .MAT (StrikeGoldd) FILE OR FROM StructuralIdentifiability.jl or SIAN.jl
-% These files may be storaged in the 'original_files' folder
-elseif strcmpi(which, 'SG')
+% CONVERT A MATLAB MODEL FROM STRIKE-GOLDD package
+% : https://github.com/afvillaverde/strike-goldd
 
-    symbols = load(fullfile('original_files', modelName), 'x', 'f', 'p', 'u', 'w');
-    convertEQNs_SG(symbols, modelName)
+    % Example:
+    % modelName = 'HIV.mat';
+    modelName = [];
 
-elseif strcmpi(which, 'JL')
+%%
 
-    convertEQNs_StructIdent(modelNameJulia)
+WhatToDo
 
-end
