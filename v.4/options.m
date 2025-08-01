@@ -14,6 +14,9 @@ abs_tol = 1e-12;                %   Absolute Tolerance.
 solver = @ode45;                %   Some examples: @ode15, @ode23s, @ode45...
 d = 1.0e-16;
 
+% === PARALLEL COMPUTING ===
+usar_paralelo = false; % 'true' or 'false'
+
 % === VISUALIZATION OPTIONS ===
 visualization_choice = 2;       %   1 - Results are shown in Heatmap form, GRAY scale.
                                 %   2 - Results are shown in Heatmap form, INFERNO scale.
