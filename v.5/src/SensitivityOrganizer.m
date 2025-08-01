@@ -22,9 +22,9 @@ function SensitivityOrganizer()
         parpool;
     end
     
-    param_values_original = param_values;
-    x0_real = real(x0);
-    num_params = length(param_values);
+    param_values_original = model.param_values;
+    x0_real = real(model.x0);
+    num_params = length(model.param_values);
     
     % === LOOP OF PARAMETERS TO ANALYZE ===
     % (Puede ser con cálculo paralelo o de manera normal)
@@ -35,19 +35,26 @@ function SensitivityOrganizer()
         results_matrix = zeros(t_end, length(tspan));
     
         if opts.usar_paralelo
-    
-            parfor i = 1:t_end
         
+            % En cálculo paralelo crearía problemas de eficiencia pasar las
+            % variables en forma de struct (sale un warning)
+            d = opts.d;
+            solver = opts.solver;
+            rel_tol = opts.rel_tol;
+            abs_tol = opts.abs_tol;
+
+            parfor i = 1:t_end
+
                 local_params = param_values_original;
                 local_params(pI) = ModelVect(i);
                 p = complex(local_params, 0);        
         
                 % Run the ODE integration with the modified parameters
-                sol = sensitivityMain(x0_real, p, 1e-16, tspan, ode_function, opts.solver, opts.rel_tol, opts.abs_tol);
+                sol = sensitivityMain(x0_real, p, d, tspan, ode_function, solver, rel_tol, abs_tol);
         
                 % Extract the response corresponding to the status of interest
-                response = sol{state_index}(:, pI + 1);
-                normalized = (response .* ModelVect(i)) ./ sol{state_index}(:, 1);
+                response = sol{model.state_index}(:, pI + 1);
+                normalized = (response .* ModelVect(i)) ./ sol{model.state_index}(:, 1);
                 results_matrix(i, :) = normalized.';
             end
         else
@@ -62,15 +69,15 @@ function SensitivityOrganizer()
                 sol = sensitivityMain(x0_real, p, opts.d, tspan, ode_function, opts.solver, opts.rel_tol, opts.abs_tol);
         
                 % Extract the response corresponding to the status of interest
-                response = sol{state_index}(:, pI + 1);
-                normalized = (response .* ModelVect(i)) ./ sol{state_index}(:, 1);
+                response = sol{model.state_index}(:, pI + 1);
+                normalized = (response .* ModelVect(i)) ./ sol{model.state_index}(:, 1);
                 results_matrix(i, :) = normalized.';
             end
     
         end
     
-        PlotResults(results_matrix, ode_function, param_values, x0, tspan, ModelVect, pI, state_index, opts.modelname, param_names, state_names, opts.solver, opts.rel_tol, opts.abs_tol, opts.visualization_choice);
-        disp(['Generated figures for parameter ' num2str(pI) ' of ' num2str(length(param_values))]);
+        PlotResults(results_matrix, ode_function, model.param_values, model.x0, tspan, ModelVect, pI, model.state_index, opts.modelname, model.param_names, model.state_names, opts.solver, opts.rel_tol, opts.abs_tol, opts.visualization_choice);
+        disp(['Generated figures for parameter ' num2str(pI) ' of ' num2str(length(model.param_values))]);
         toc
     end
 end
