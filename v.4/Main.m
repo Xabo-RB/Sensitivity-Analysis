@@ -12,6 +12,8 @@ convert_model_or_RunSensitivities = 'run'; % 'convert' or 'run'
 % -------------- CONVERT A MODEL TO LATTER ANALYSE --------------
 % ---------------------------------------------------------------
 
+% The files to be converted must be in the original_files folder.
+
 % CONVERT A JULIA MODEL FROM StructuralIdentifiability and SIAN packages
 % : https://github.com/SciML/StructuralIdentifiability.jl
 % : https://github.com/alexeyovchinnikov/SIAN-Julia
