@@ -2,11 +2,13 @@
 % This script evaluates the sensitivity of an ODE model with respect to an user-defined set of parameters.
 % For each parameter, it generates a normalized sensitivity matrix and produces a results figure.
 
+opts = options();
+
 % Create the name of the function handle type variable that is going to analyse
-ode_function  = str2func(modelname);
+ode_function  = str2func(opts.opts.modelname);
 
 % Run the corresponding options file
-options_script = [modelname '_options'];
+options_script = [opts.modelname '_options'];
 if exist([options_script '.m'], 'file')
     eval(options_script);
 else
@@ -15,7 +17,7 @@ end
 
 % Initialize the parallel processing pool if it is not active and if it is
 % required by the user
-if usar_paralelo && isempty(gcp('nocreate'))
+if opts.usar_paralelo && isempty(gcp('nocreate'))
     parpool;
 end
 
@@ -31,7 +33,7 @@ for pI = 1:num_params
     ModelVect = linspace(0, rango_max_param, t_end);
     results_matrix = zeros(t_end, length(tspan));
 
-    if usar_paralelo
+    if opts.usar_paralelo
 
         parfor i = 1:t_end
     
@@ -40,7 +42,7 @@ for pI = 1:num_params
             p = complex(local_params, 0);        
     
             % Run the ODE integration with the modified parameters
-            sol = sensitivityMain(x0_real, p, 1e-16, tspan, ode_function, solver, rel_tol, abs_tol);
+            sol = sensitivityMain(x0_real, p, 1e-16, tspan, ode_function, opts.solver, opts.rel_tol, opts.abs_tol);
     
             % Extract the response corresponding to the status of interest
             response = sol{state_index}(:, pI + 1);
@@ -56,7 +58,7 @@ for pI = 1:num_params
             p = complex(local_params, 0);        
     
             % Run the ODE integration with the modified parameters
-            sol = sensitivityMain(x0_real, p, 1e-16, tspan, ode_function, solver, rel_tol, abs_tol);
+            sol = sensitivityMain(x0_real, p, opts.d, tspan, ode_function, opts.solver, opts.rel_tol, opts.abs_tol);
     
             % Extract the response corresponding to the status of interest
             response = sol{state_index}(:, pI + 1);
@@ -66,7 +68,7 @@ for pI = 1:num_params
 
     end
 
-    PlotResults(results_matrix, ode_function, param_values, x0, tspan, ModelVect, pI, state_index, modelname, param_names, state_names, solver, rel_tol, abs_tol, visualization_choice);
+    PlotResults(results_matrix, ode_function, param_values, x0, tspan, ModelVect, pI, state_index, opts.modelname, param_names, state_names, opts.solver, opts.rel_tol, opts.abs_tol, opts.visualization_choice);
     disp(['Generated figures for parameter ' num2str(pI) ' of ' num2str(length(param_values))]);
     toc
 end
