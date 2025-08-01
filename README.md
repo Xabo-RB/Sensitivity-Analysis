@@ -7,7 +7,6 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/Xabo-RB/Sensitivity-Analysis?color=yellow&label=Last%20commit&style=plastic)
 
 ![Repo size](https://img.shields.io/github/repo-size/Xabo-RB/Sensitivity-Analysis?label=Repo%20size)
-![Lines of code](https://img.shields.io/tokei/lines/github/Xabo-RB/Sensitivity-Analysis?label=Lines%20of%20code)
 ![License](https://img.shields.io/github/license/Xabo-RB/Sensitivity-Analysis)
 
 ![Issues](https://img.shields.io/github/issues/Xabo-RB/Sensitivity-Analysis)
