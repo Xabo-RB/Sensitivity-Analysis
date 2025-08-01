@@ -30,9 +30,10 @@ function SensitivityOrganizer()
     % (Puede ser con cálculo paralelo o de manera normal)
     for pI = 1:num_params  
         tic
+
         rango_max_param = 5 * param_values_original(pI);
-        ModelVect = linspace(0, rango_max_param, t_end);
-        results_matrix = zeros(t_end, length(tspan));
+        ModelVect = linspace(0, rango_max_param, model.number_samples);
+        results_matrix = zeros(model.number_samples, length(model.tspan));
     
         if opts.usar_paralelo
         
@@ -43,14 +44,14 @@ function SensitivityOrganizer()
             rel_tol = opts.rel_tol;
             abs_tol = opts.abs_tol;
 
-            parfor i = 1:t_end
+            parfor i = 1:model.t_end
 
                 local_params = param_values_original;
                 local_params(pI) = ModelVect(i);
                 p = complex(local_params, 0);        
         
                 % Run the ODE integration with the modified parameters
-                sol = sensitivityMain(x0_real, p, d, tspan, ode_function, solver, rel_tol, abs_tol);
+                sol = sensitivityMain(x0_real, p, d, model.tspan, ode_function, solver, rel_tol, abs_tol);
         
                 % Extract the response corresponding to the status of interest
                 response = sol{model.state_index}(:, pI + 1);
@@ -59,14 +60,14 @@ function SensitivityOrganizer()
             end
         else
     
-            for i = 1:t_end
+            for i = 1:model.t_end
         
                 local_params = param_values_original;
                 local_params(pI) = ModelVect(i);
                 p = complex(local_params, 0);        
         
                 % Run the ODE integration with the modified parameters
-                sol = sensitivityMain(x0_real, p, opts.d, tspan, ode_function, opts.solver, opts.rel_tol, opts.abs_tol);
+                sol = sensitivityMain(x0_real, p, opts.d, model.tspan, ode_function, opts.solver, opts.rel_tol, opts.abs_tol);
         
                 % Extract the response corresponding to the status of interest
                 response = sol{model.state_index}(:, pI + 1);
@@ -76,7 +77,7 @@ function SensitivityOrganizer()
     
         end
     
-        PlotResults(results_matrix, ode_function, model.param_values, model.x0, tspan, ModelVect, pI, model.state_index, opts.modelname, model.param_names, model.state_names, opts.solver, opts.rel_tol, opts.abs_tol, opts.visualization_choice);
+        PlotResults(results_matrix, ode_function, model.param_values, model.x0, model.tspan, ModelVect, pI, model.state_index, opts.modelname, model.param_names, model.state_names, opts.solver, opts.rel_tol, opts.abs_tol, opts.visualization_choice);
         disp(['Generated figures for parameter ' num2str(pI) ' of ' num2str(length(model.param_values))]);
         toc
     end

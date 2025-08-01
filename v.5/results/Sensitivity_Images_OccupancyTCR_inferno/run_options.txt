@@ -9,7 +9,7 @@ Visualization: inferno (option 2)
 State analyzed: C0 (index 1)
 Simulation step size: 0.05
 Simulation end time: 50
-Sensitivity iterations: 50
+Sensitivity iterations: 1000
 
 === MODEL PARAMETERS ===
 kon = 5e-05
