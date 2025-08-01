@@ -18,6 +18,5 @@ end
 %% RUN SENSITIVITY CODE
 
 if strcmpi(convert_model_or_RunSensitivities, 'run')
-    options
-    Sensitivity
+    SensitivityOrganizer
 end
