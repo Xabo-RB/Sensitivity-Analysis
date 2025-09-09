@@ -63,8 +63,10 @@ function SensitivityOrganizer()
         
                 % Extract the response corresponding to the status of interest
                 response = sol{model.state_index}(:, pI + 1);
-                normalized = (response .* ModelVect(i)) ./ sol{model.state_index}(:, 1);
-                results_matrix(i, :) = normalized.';
+                % Evolución del estado sin sensibilizar al parámetro
+                evoX = sol{model.state_index}(:, 1);
+                normalized = (response .* ModelVect(i)) ./ evoX;
+                results_matrix(i, :) = normalized;
             end
         else
     
@@ -84,7 +86,6 @@ function SensitivityOrganizer()
                 % Evolución del estado sin sensibilizar al parámetro
                 evoX = sol{model.state_index}(:, 1);
                 normalized = (response .* ModelVect(i)) ./ evoX;
-                %results_matrix(i, :) = normalized.';
                 results_matrix(i, :) = normalized;
             end
     
