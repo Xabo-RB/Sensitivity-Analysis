@@ -34,9 +34,9 @@ function SensitivityOrganizer()
 
         % rango_max_param = 5 * param_values_original(pI);
         % ModelVect = linspace(0, rango_max_param, model.number_samples);
-        
-        % 3 magnitudes por encima y 3 por debajo
+
         p0 = param_values_original(pI);
+        
         rango_min_param = p0 * 1e-3;
         rango_max_param = p0 * 1e3;
         ModelVect = logspace(log10(rango_min_param), log10(rango_max_param), model.number_samples);
@@ -84,7 +84,6 @@ function SensitivityOrganizer()
                 % Evolución del estado sin sensibilizar al parámetro
                 evoX = sol{model.state_index}(:, 1);
                 normalized = (response .* ModelVect(i)) ./ evoX;
-                %results_matrix(i, :) = normalized.';
                 results_matrix(i, :) = normalized.';
             end
     

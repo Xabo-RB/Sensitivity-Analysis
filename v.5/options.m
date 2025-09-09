@@ -19,7 +19,7 @@ function opts = options()
     opts.usar_paralelo = false; % 'true' or 'false'
     
     % === VISUALIZATION OPTIONS ===
-    opts.visualization_choice = 2;       %   1 - Results are shown in Heatmap form, GRAY scale.
+    opts.visualization_choice = 1;       %   1 - Results are shown in Heatmap form, GRAY scale.
                                     %   2 - Results are shown in Heatmap form, INFERNO scale.
 
 end

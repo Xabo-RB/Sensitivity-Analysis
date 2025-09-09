@@ -5,10 +5,10 @@
 % === PARAMETER CONFIGURATION ===
 model.param_values =[5e-5, 0.01];
 model.param_names = {'kon', 'koff'};
-model.number_samples = 1000;
+model.number_samples = 1000; % How many points you would like to compute within the range
 
 % === INITIAL CONDITIONS ===
-model.x0 = complex([0, 100, 2e4], 0);
+model.x0 = complex([0, 5e4, 2e4], 0);
 model.state_names = {'C0', 'L', 'R'};
 
 % === STATE TO ANALYZE ===

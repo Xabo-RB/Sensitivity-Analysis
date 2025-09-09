@@ -1,0 +1,21 @@
+=== RUN CONFIGURATION ===
+
+Model: OccupancyTCR
+ODE function: OccupancyTCR.m
+Solver: ode45
+Relative Tolerance: 1e-09
+Absolute Tolerance: 1e-12
+Visualization: gray (option 1)
+State analyzed: C0 (index 1)
+Simulation step size: 0.05
+Simulation end time: 50
+Sensitivity iterations: 1000
+
+=== MODEL PARAMETERS ===
+kon = 5e-05
+koff = 0.01
+
+=== MODEL STATES ===
+C0 = 0
+L = 50000
+R = 20000
