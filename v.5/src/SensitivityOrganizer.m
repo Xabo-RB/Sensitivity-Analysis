@@ -1,7 +1,8 @@
-% === SENSITIVITY CODE ===
+%% === SENSITIVITY CODE ===
 % This script evaluates the sensitivity of an ODE model with respect to an user-defined set of parameters.
 % For each parameter, it generates a normalized sensitivity matrix and produces a results figure.
 
+%%
 function SensitivityOrganizer()
     opts = options();
     
