@@ -18,10 +18,10 @@
     - Si conviertes simplemente convierte, no hay que hacer nada más.
     - Si Ejecutas pasamos al paso 2.
 
-2. Main nos dirige a WhatToDo, que o convierte o runea. No hace más. Si convierte ahí termina la ejecución. Si runea pasamos al paso 3, el guiso de sensibilidades. 
+2. Main nos dirige a **WhatToDo**, que o convierte o runea. No hace más. Si convierte ahí termina la ejecución. Si runea pasamos al paso 3, el guiso de sensibilidades. 
 Por qué este script? Pues se puede cambiar, principalmente para que el Main sea más simple, que sólo contenga lo imprescindible. Realmente son dos scripts que podían estar juntos. Pero es por limpieza.
 
-3. Ya tenemos los ingredientes, y llegamos al script que gestiona todo. *SensitivityOrganizer*. Qué hace? Lee las opciones generales, archivo options.m. Lee las opciones particulares de cada modelo, presentes en la carpeta models con el nombre del modelo+_options. Y ejecuta el cálculo de sensibildiades para cada parámetro para posteriormente plotearlo y enviarlo a la carpeta results.
+3. Ya tenemos los ingredientes, y llegamos al script que gestiona todo. **SensitivityOrganizer**. Qué hace? Lee las opciones generales, archivo options.m. Lee las opciones particulares de cada modelo, presentes en la carpeta models con el nombre del modelo+_options. Y ejecuta el cálculo de sensibildiades para cada parámetro para posteriormente plotearlo y enviarlo a la carpeta results.
 
 PD. Cómo se ejecuta ahora? Qué hace el usuario?
 
