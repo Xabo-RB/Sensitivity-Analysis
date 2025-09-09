@@ -52,7 +52,7 @@ function SensitivityOrganizer()
             rel_tol = opts.rel_tol;
             abs_tol = opts.abs_tol;
 
-            parfor i = 1:model.t_end
+            parfor i = 1:model.number_samples
 
                 local_params = param_values_original;
                 local_params(pI) = ModelVect(i);
@@ -85,7 +85,7 @@ function SensitivityOrganizer()
                 evoX = sol{model.state_index}(:, 1);
                 normalized = (response .* ModelVect(i)) ./ evoX;
                 %results_matrix(i, :) = normalized.';
-                results_matrix(i, :) = normalized.';
+                results_matrix(i, :) = normalized;
             end
     
         end
