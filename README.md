@@ -23,6 +23,6 @@ Por qué este script? Pues se puede cambiar, principalmente para que el **Main**
 
 3. Ya tenemos los ingredientes, y llegamos al script que gestiona todo. **SensitivityOrganizer**. Qué hace? Lee las opciones generales, archivo **options**.m. Lee las opciones particulares de cada modelo, presentes en la carpeta models con el nombre del **modelo+_options**. Y ejecuta el cálculo de sensibildiades para cada parámetro para posteriormente plotearlo y enviarlo a la carpeta results.
 
-*PD. Cómo se ejecuta ahora? Qué hace el usuario?
+### PD: Cómo se ejecuta ahora? Qué hace el usuario?
 
-El usuario modifica el main para decidir si convierte o runea sensibilidades. Para las sensibilidades tiene que modificar el archivo options.m de la carpeta principal. Y para cada modelo específic modifica las optiones correspondientes. Por qué así? Para que el usuario pueda guardar las options particulares de cada modelo y no sobreescribir el mismo fichero y perder las optiones de un modelo al siguiente. *
+El usuario modifica el main para decidir si convierte o runea sensibilidades. Para las sensibilidades tiene que modificar el archivo options.m de la carpeta principal. Y para cada modelo específic modifica las optiones correspondientes. Por qué así? Para que el usuario pueda guardar las options particulares de cada modelo y no sobreescribir el mismo fichero y perder las optiones de un modelo al siguiente.
