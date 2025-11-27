@@ -29,7 +29,7 @@ function SensitivityOrganizer()
     
     % === LOOP OF PARAMETERS TO ANALYZE ===
     % (Puede ser con cálculo paralelo o de manera normal)
-    h = waitbar(0, 'Processing parameters...');
+    h = waitbar(0, 'Computing sesntivity for parameter...');
     for pI = 1:num_params  
         tic
 
