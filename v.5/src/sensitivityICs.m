@@ -10,8 +10,8 @@ function sensitivityICs(model, opts)
     nIC = opts.nStaIC;    
     
     % Limit of the range for analysing the sensitivity
-    opts.rango(1) = rango_min;
-    opts.rango(2) = rango_max;
+    rango_min= opts.rango(1);
+    rango_max= opts.rango(2);
     
     h = waitbar(0, 'Computing sensitivity...');
     tic
@@ -32,19 +32,17 @@ function sensitivityICs(model, opts)
 
         parfor i = 1:model.number_samples
 
-            local_params = param_values_original;
-            local_params(pI) = stateVect(i);
-            p = complex(local_params, 0);        
-    
-            % Run the ODE integration with the modified parameters
-            sol = sensitivityMain(x0_real, p, d, model.tspan, ode_function, solver, rel_tol, abs_tol);
-    
-            % Extract the response corresponding to the status of interest
-            response = sol{model.state_index}(:, pI + 1);
-            % Evolución del estado sin sensibilizar al parámetro
-            evoX = sol{model.state_index}(:, 1);
-            normalized = (response .* ModelVect(i)) ./ evoX;
+            local_states = Original_x0;
+            local_states(nIC) = stateVect(i);
+            x0_real = complex(local_states, 0);
+        
+            sol = sensitivityMainICs(x0_real, p, d, model.tspan, ode_function, solver, rel_tol, abs_tol);
+        
+            response = sol{model.state_index}(:, nIC + 1);
+            evoX     = sol{model.state_index}(:, 1);
+            normalized = (response .* stateVect(i)) ./ evoX;
             results_matrix(i, :) = normalized;
+
         end
     else
 
@@ -62,20 +60,16 @@ function sensitivityICs(model, opts)
             sol = sensitivityMainICs(x0_real, p, opts.d, model.tspan, ode_function, opts.solver, opts.rel_tol, opts.abs_tol);
     
             % Extract the response corresponding to the status of interest
-            response = sol{model.state_index}(:, pI + 1);
+            response = sol{model.state_index}(:, nIC + 1);
             % Evolución del estado sin sensibilizar al parámetro
             evoX = sol{model.state_index}(:, 1);
-            normalized = (response .* ModelVect(i)) ./ evoX;
+            normalized = (response .* stateVect(i)) ./ evoX;
             results_matrix(i, :) = normalized;
         end
 
     end
-    
-    waitbar(pI / num_params, h, ...
-    sprintf('Processing parameter %d of %d', pI, num_params));
 
-    PlotResults(results_matrix, ode_function, model.param_values, model.x0, model.tspan, ModelVect, pI, model.state_index, opts.modelname, model.param_names, model.state_names, opts.solver, opts.rel_tol, opts.abs_tol, opts.visualization_choice);
-    disp(['Generated figures for parameter ' num2str(pI) ' of ' num2str(length(model.param_values))]);
+    PlotResults(results_matrix, ode_function, model.param_values, model.x0, model.tspan, stateVect, nIC, model.state_index, opts.modelname, model.param_names, model.state_names, opts.solver, opts.rel_tol, opts.abs_tol, opts.visualization_choice);
     toc
     close(h);
 
