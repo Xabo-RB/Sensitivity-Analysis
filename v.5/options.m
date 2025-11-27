@@ -20,6 +20,10 @@ function opts = options()
     
     % === VISUALIZATION OPTIONS ===
     opts.visualization_choice = 1;       %   1 - Results are shown in Heatmap form, GRAY scale.
-                                    %   2 - Results are shown in Heatmap form, INFERNO scale.
+                                         %   2 - Results are shown in Heatmap form, INFERNO scale.
+
+    % === SENSITIVITY TO INITIAL CONDITIONS ===
+    opts.ICsens = 'True';                % 'True' If you want to analyse the sensitivity to some initial condition; 'False' if not.
+    opts.nStaIC = 1;                     % Which initial condition you want to analyse. '1' for the first one, '2' for the second one, and so on.
 
 end
