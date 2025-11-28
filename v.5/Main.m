@@ -31,6 +31,7 @@ addpath('models');
 
 convert_model_or_RunSensitivities = 'run'; % 'convert' or 'run'
 
+% If 'convert' is selected:
     % Example:
     % modelNameJulia = 'CRN.jl';
     modelNameJulia = [];
