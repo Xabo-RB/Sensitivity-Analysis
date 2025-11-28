@@ -24,9 +24,9 @@ function SensitivityOrganizer()
     end
     
     % For analysing the sensitivity to initial conditions we move to another script.
-    if opts.ICsens
+    if opts.ICsens 
 
-        sensitivityICs(model, opts);
+        sensitivityICs(model, opts, ode_function);
         
     else
 

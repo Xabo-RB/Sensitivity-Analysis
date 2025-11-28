@@ -69,9 +69,9 @@ function sensitivityICs(model, opts, ode_function)
             results_matrix(i, :) = normalized;
             
             % Poniendo el número en el que está del sample
-            %waitbar(i / model.number_samples, h, sprintf('Computing IC sample %d of %d...', i, model.number_samples));
+            waitbar(i / model.number_samples, h, sprintf('Computing IC sample %d of %d...', i, model.number_samples));
             % Sin él
-            waitbar(i / model.number_samples, h, sprintf('Computing...'));
+            waitbar(i / model.number_samples, h, sprintf('Computing...', i, model.number_samples));
 
         end
 

@@ -23,7 +23,7 @@ function opts = options()
                                          %   2 - Results are shown in Heatmap form, INFERNO scale.
 
     % === SENSITIVITY TO INITIAL CONDITIONS ===
-    opts.ICsens = 'True';                % 'True' If you want to analyse the sensitivity to some initial condition; 'False' if not.
+    opts.ICsens = true;                % 'True' If you want to analyse the sensitivity to some initial condition; 'False' if not.
     opts.nStaIC = 1;                % Which initial condition you want to analyse. '1' for the first one, '2' for the second one, and so on.
     opts.rango = [1, 5e4];              % Range for the sensitivity analysis
 end
