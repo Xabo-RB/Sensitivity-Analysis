@@ -3,7 +3,7 @@ function sensitivityICs(model, opts, ode_function)
     % Parameter values
     p = model.param_values;
     % Initial condition values original
-    Original_x0 = real(model.x0);
+    Original_x0 = model.x0;
     pI = length(Original_x0);
     
     % nNumber of the state that is going to be analysed

@@ -8,7 +8,7 @@ model.param_names = {'η', 'μ_I', 'ν', 'κ', 'ϵ', 'θ', 'μ_E', 'μ_P', 'ρ',
 model.number_samples = 1000;
 
 % === INITIAL CONDITIONS ===
-model.x0 = complex([1.33e6, 10, 10, 1e8, 2.5e5, 1e11, 10, 1], 0);
+model.x0 = [1.33e6, 10, 10, 1e8, 2.5e5, 1e11, 10, 1];
 model.state_names = {'C_I', 'C_E', 'C_P', 'T_P', 'T_N', 'M_a', 'M_i', 'IL_6'};
 
 % === STATE TO ANALYZE ===

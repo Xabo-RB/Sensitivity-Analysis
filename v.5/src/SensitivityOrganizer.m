@@ -31,7 +31,7 @@ function SensitivityOrganizer()
     else
 
         param_values_original = model.param_values;
-        x0_real = real(model.x0);
+        x0_real = model.x0;
         num_params = length(model.param_values);
         
         % === LOOP OF PARAMETERS TO ANALYZE ===
