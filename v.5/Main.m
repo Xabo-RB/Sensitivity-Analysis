@@ -29,18 +29,18 @@ addpath('models');
 
 %% USER-DEFINED
 
-convert_model_or_RunSensitivities = 'run'; % 'convert' or 'run'
+% Model conversion and/or sensitivity launch: 'convert' or 'run'
+mode = 'run'; 
 
 % If 'convert' is selected:
-    % Example:
-    % modelNameJulia = 'CRN.jl';
-    modelNameJulia = [];
+% Example:
+% modelNameJulia = 'CRN.jl';
+modelNameJulia = [];
 
-    % Example:
-    % modelName = 'HIV.mat';
-    modelName = [];
+% Example:
+% modelName = 'HIV.mat';
+modelName = [];
 
 %%
 
-WhatToDo
-
+WhatToDo(mode, modelNameJulia, modelName)

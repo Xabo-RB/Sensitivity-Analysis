@@ -11,25 +11,27 @@
 %        on the prepared models.
 %
 %% (Not User-defined)
-%% CONVERSION
-if strcmpi(convert_model_or_RunSensitivities, 'convert')
-
-    if isempty(modelNameJulia)
+function WhatToDo(mode, modelNameJulia, modelName)
+    
+    %% CONVERSION
+    if strcmpi(mode, 'convert')
+    
+        if ~isempty(modelNameJulia)
+            convertEQNs_StructIdent(modelNameJulia)
+        end
+    
+        if ~isempty(modelName)
+            symbols = load(fullfile('original_files', modelName), 'x', 'f', 'p', 'u', 'w');
+            convertEQNs_SG(symbols, modelName)
+        end
+    
         return
     end
-    convertEQNs_StructIdent(modelNameJulia)
-
-    if isempty(modelName)
-        return
+    
+    %% RUN SENSITIVITY CODE
+    
+    if strcmpi(mode, 'run')
+        SensitivityOrganizer
     end
-    symbols = load(fullfile('original_files', modelName), 'x', 'f', 'p', 'u', 'w');
-    convertEQNs_SG(symbols, modelName)
 
-    return
-end
-
-%% RUN SENSITIVITY CODE
-
-if strcmpi(convert_model_or_RunSensitivities, 'run')
-    SensitivityOrganizer
 end
