@@ -10,7 +10,7 @@ function sensitivityParams(model, opts, ode_function)
         for pI = 1:num_params  
             tic
             
-            if model.range_type == 1
+            if param_range_type == 1
 
                 % 3 magnitudes por encima y 3 por debajo
                 p0 = param_values_original(pI);
@@ -18,15 +18,25 @@ function sensitivityParams(model, opts, ode_function)
                 rango_max_param = p0 * 1e3;
                 ModelVect = logspace(log10(rango_min_param), log10(rango_max_param), model.number_samples);
             
-            elseif model.range_type == 2
+            elseif param_range_type == 2
                
                 rango_min_param = model.param_ranges(pI,1);
                 rango_max_param = model.param_ranges(pI,2);
                 ModelVect = logspace(log10(rango_min_param), log10(rango_max_param), model.number_samples);
             
-            elseif model.range_type == 3
+            elseif param_range_type == 3
 
-                ModelVect = model.param_ranges{pI};        
+                rango_min_param = model.param_ranges{pI}(1);
+                rango_max_param = model.param_ranges{pI}(end);
+                ModelVect = logspace(log10(rango_min_param), log10(rango_max_param), model.number_samples);
+
+            
+                model.param_ranges = {
+                    4e-6:1e-6:2e-2, ...
+                    0.001:0.001:1
+                };
+
+                
             
             end 
     

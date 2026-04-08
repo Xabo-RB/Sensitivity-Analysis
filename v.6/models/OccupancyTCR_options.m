@@ -13,18 +13,18 @@ model.range_type = 1;
 %   2 -> define [min, max] for each parameter and the number of points
 %   3 -> define [min, max] for each parameter and the step size within points
 
-if param_range_type == 1
+if model.range_type == 1
 
     % How many points you would like to compute within the default range
     model.number_samples = 1000;
 
-elseif param_range_type == 2
+elseif model.range_type == 2
 
     model.number_samples = 1000;
     model.param_ranges = [4e-6, 2e-2; 
                           0.001, 1];
 
-elseif param_range_type == 3
+elseif model.range_type == 3
 
     model.param_ranges = {
         4e-6:1e-6:2e-2, ...
