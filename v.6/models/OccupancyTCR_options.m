@@ -7,7 +7,7 @@ model.param_values =[5e-5, 0.01];
 model.param_names = {'kon', 'koff'};
 
 % === PARAMETER RANGE VALUES ===
-model.range_type = 1;
+model.range_type = 2;
 % Choose one option:
 %   1 -> default range: 3 orders of magnitude below and 3 above the nominal parameter value.
 %   2 -> define [min, max] for each parameter and the number of points
