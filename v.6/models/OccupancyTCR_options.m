@@ -7,7 +7,7 @@ model.param_values =[5e-5, 0.01];
 model.param_names = {'kon', 'koff'};
 
 % === PARAMETER RANGE VALUES ===
-model.range_type = 2;
+model.range_type = 3;
 % Choose one option:
 %   1 -> default range: 3 orders of magnitude below and 3 above the nominal parameter value.
 %   2 -> define [min, max] for each parameter and the number of points
@@ -34,7 +34,7 @@ elseif model.range_type == 3
 end                        
 
 % === INITIAL CONDITIONS ===
-model.x0 = [0, 5e4, 2e4];
+model.x0 = [0, 100, 2e4];
 model.state_names = {'C0', 'L', 'R'};
 
 % === STATE TO ANALYZE ===

@@ -26,7 +26,8 @@ function sensitivityParams(model, opts, ode_function)
             
             elseif model.range_type == 3
 
-                ModelVect = model.param_ranges{pI};        
+                ModelVect = model.param_ranges{pI};
+                model.number_samples = length(ModelVect);
             
             end 
     

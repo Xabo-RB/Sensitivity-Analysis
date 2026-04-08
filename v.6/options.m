@@ -8,11 +8,11 @@ function opts = options()
     opts.modelname     = 'OccupancyTCR';          
     
     % === TOLERANCES ===
-    opts.rel_tol = 1e-9;                 %   Relative Tolerance.   
-    opts.abs_tol = 1e-12;                %   Absolute Tolerance.
+    opts.rel_tol = 1e-4;                 %   Relative Tolerance.   
+    opts.abs_tol = 1e-4;                 %   Absolute Tolerance.
     
     % === SOLVER AND STEP ===
-    opts.solver = @ode45;                %   Some examples: @ode15, @ode23s, @ode45...
+    opts.solver = @ode23s;                %   Some examples: @ode15, @ode23s, @ode45...
     opts.d = 1.0e-16;
     
     % === PARALLEL COMPUTING ===
