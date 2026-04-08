@@ -86,7 +86,7 @@ function PlotResults(results_matrix, ode_function, param_values, x0, tspan, Mode
     close(figura_normal);
     
     % === LOG SCALE FIGURE ===
-    results_matrix_log = log10(results_matrix);
+    results_matrix_log = log10(abs(results_matrix));
     figura_log = figure('Visible', 'off', 'Position', [100, 100, 600, 400]);
     switch visualization_choice
         case 1
