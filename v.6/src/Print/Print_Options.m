@@ -67,8 +67,12 @@ elseif model.range_type == 2
     disp(model.param_ranges)
 
 elseif model.range_type == 3
-    fprintf('Parameter ranges (cell array):\n');
-    disp(model.param_ranges)
+    fprintf('Parameter ranges:\n');
+    for i = 1:length(model.param_ranges)
+        rango_actual = model.param_ranges{i};
+        fprintf('  %s: [%g, %g] (%d points)\n', ...
+            model.param_names{i}, rango_actual(1), rango_actual(end), length(rango_actual));
+    end
 end
 
 fprintf('Initial conditions x0: \n');
