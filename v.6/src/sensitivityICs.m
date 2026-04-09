@@ -10,16 +10,31 @@ function sensitivityICs(model, opts, ode_function)
     nIC = opts.nStaIC;    
     
     % Limit of the range for analysing the sensitivity
-    rango_min= opts.rango(1);
-    rango_max= opts.rango(2);
+    rango_min= model.ICs_ranges(1);
+    rango_max= model.ICs_ranges(2);
     
     h = waitbar(0, sprintf('Computing IC sensitivity for %s_0...', ...
                            model.state_names{nIC}));
 
     tic
     
-    % Points within the range of sensitivity
-    stateVect = logspace(log10(rango_min), log10(rango_max), model.number_samples);
+    if model.range_typeICs == 1
+
+        % Points within the range of sensitivity
+        stateVect = logspace(rango_min, log10(rango_max), model.number_samples);
+
+    elseif model.range_typeICs == 2
+    
+        model.number_samples = 1000;
+        stateVect = model.param_ranges;
+
+    elseif model.range_typeICs == 3
+
+        stateVect = model.param_ranges;
+    
+    end   
+
+    
 
     results_matrix = zeros(model.number_samples, length(model.tspan));
 

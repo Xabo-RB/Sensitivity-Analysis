@@ -2,12 +2,12 @@
 
 Model: OccupancyTCR
 ODE function: OccupancyTCR.m
-Solver: ode45
-Relative Tolerance: 1e-09
-Absolute Tolerance: 1e-12
+Solver: ode23s
+Relative Tolerance: 0.0001
+Absolute Tolerance: 0.0001
 Visualization: gray (option 1)
 State analyzed (output): C0 (index 1)
-Initial condition varied: C0_0 (index 1)
+Initial condition varied: R_0 (index 3)
 Simulation step size: 0.05
 Simulation end time: 50
 Sensitivity iterations: 1000
@@ -18,5 +18,5 @@ koff = 0.01
 
 === MODEL STATES (initial conditions) ===
 C0 = 0
-L = 50000
+L = 100
 R = 20000

@@ -30,12 +30,6 @@ end
 if opts.ICsens
     fprintf('Sensitivity to initial conditions:\n');
     fprintf('  Enabled\n');
-
-    fprintf('Initial condition index to analyse:\n');
-    fprintf('  %d\n', opts.nStaIC);
-
-    fprintf('Range for IC sensitivity:\n');
-    fprintf('  [%g, %g]\n', opts.rango(1), opts.rango(2));
 end
 
 
@@ -87,3 +81,13 @@ fprintf('State index to analyze: \n   %d\n', model.state_index);
 
 fprintf('Step size: \n   %g\n', model.step_size);
 fprintf('Final time: \n   %g\n', model.t_end);
+
+if opts.ICsens
+
+    fprintf('Initial condition index (referred to the state vector) to analyse:\n');
+    fprintf('  %d\n', opts.nStaIC);
+
+    fprintf('Range for IC sensitivity:\n');
+    fprintf('  [%g, %g]\n', model.ICs_ranges(1), model.ICs_ranges(2));
+
+end
