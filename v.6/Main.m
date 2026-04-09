@@ -25,6 +25,7 @@ clear
 clc
 
 addpath('src');
+addpath('src/Print');
 addpath('models');
 
 %% USER-DEFINED

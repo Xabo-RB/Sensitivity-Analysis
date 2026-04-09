@@ -16,7 +16,7 @@ model.range_type = 1;
 if model.range_type == 1
 
     % How many points you would like to compute within the default range
-    model.number_samples = 100;
+    model.number_samples = 1000;
 
 elseif model.range_type == 2
 
@@ -45,3 +45,4 @@ model.step_size = 0.05;
 model.t_end     = 50;
 model.tspan     = 0.0:model.step_size:model.t_end;
 
+Print_Options
