@@ -84,7 +84,7 @@ function sensitivityParams(model, opts, ode_function)
             waitbar(pI / num_params, h, ...
             sprintf('Processing parameter %d of %d', pI, num_params));
     
-            PlotResults(results_matrix, ode_function, model.param_values, model.x0, model.tspan, ModelVect, pI, model.state_index, opts.modelname, model.param_names, model.state_names, opts.solver, opts.rel_tol, opts.abs_tol, opts.visualization_choice);
+            PlotResults(results_matrix, ode_function, model.param_values, model.x0, model.tspan, ModelVect, pI, model.state_index, model.param_names, model.state_names, opts);
             disp(['Generated figures for parameter ' num2str(pI) ' of ' num2str(length(model.param_values))]);
             toc
         end

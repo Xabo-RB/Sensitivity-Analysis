@@ -1,4 +1,10 @@
-function PlotResults(results_matrix, ode_function, param_values, x0, tspan, ModelVect, pI, state_index, modelname, param_names, state_names, solver, rel_tol, abs_tol, visualization_choice)
+function PlotResults(results_matrix, ode_function, param_values, x0, tspan, ModelVect, pI, state_index, param_names, state_names, opts)
+    
+    solver = opts.solver;
+    opts.rel_tol = rel_tol;
+    opts.abs_tol = abs_tol;
+    opts.visualization_choice = visualization_choice;
+    modelname = opts.modelname;
 
     switch visualization_choice
         case 1
