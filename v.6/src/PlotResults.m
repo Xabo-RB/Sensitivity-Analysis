@@ -1,9 +1,9 @@
 function PlotResults(results_matrix, ode_function, param_values, x0, tspan, ModelVect, pI, state_index, param_names, state_names, opts)
     
     solver = opts.solver;
-    opts.rel_tol = rel_tol;
-    opts.abs_tol = abs_tol;
-    opts.visualization_choice = visualization_choice;
+    rel_tol = opts.rel_tol;
+    abs_tol = opts.abs_tol;
+    visualization_choice = opts.visualization_choice;
     modelname = opts.modelname;
 
     switch visualization_choice
@@ -85,6 +85,13 @@ function PlotResults(results_matrix, ode_function, param_values, x0, tspan, Mode
     title([modelname ': Sensitivity of ' state_names{state_index} ' to ' param_names{pI}], ...
         'FontSize', 18, 'FontWeight', 'bold');
     set(gca, 'YDir', 'normal');
+    if LogX
+        set(gca, 'XScale', 'log');
+    end
+    
+    if LogY
+        set(gca, 'YScale', 'log');
+    end
     
     nombre_normal = fullfile(output_folder, ...
         [modelname '_Parameter_' num2str(pI) '_State_' num2str(state_index)]);
@@ -114,7 +121,14 @@ function PlotResults(results_matrix, ode_function, param_values, x0, tspan, Mode
     title([modelname ': Sensitivity of ' state_names{state_index} ' (log) to ' param_names{pI}], ...
         'FontSize', 18, 'FontWeight', 'bold');
     set(gca, 'YDir', 'normal');
+    if opts.LogX
+        set(gca, 'XScale', 'log');
+    end
     
+    if opts.LogY
+        set(gca, 'YScale', 'log');
+    end
+
     nombre_log = fullfile(output_folder, ...
         [modelname '_Parameter_' num2str(pI) '_State_' num2str(state_index) '_log']);
     exportgraphics(figura_log, [nombre_log '.png'], 'BackgroundColor','white','ContentType','image');

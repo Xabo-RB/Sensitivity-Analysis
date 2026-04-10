@@ -1,7 +1,12 @@
 function PlotResultsICs(results_matrix, ode_function, param_values, x0, ...
                         tspan, ICVect, nIC, state_index, ...
-                        modelname, param_names, state_names, ...
-                        solver, rel_tol, abs_tol, visualization_choice)
+                        param_names, state_names, opts)
+
+    solver = opts.solver;
+    rel_tol = opts.rel_tol;
+    abs_tol = opts.abs_tol;
+    visualization_choice = opts.visualization_choice;
+    modelname = opts.modelname;
 
     % === VISUALIZATION NAME ===
     switch visualization_choice
@@ -78,6 +83,14 @@ function PlotResultsICs(results_matrix, ode_function, param_values, x0, ...
            ' to ' ic_label], ...
           'FontSize', 18, 'FontWeight', 'bold');
     set(gca, 'YDir', 'normal');
+    if opts.LogX
+        set(gca, 'XScale', 'log');
+    end
+    
+    if opts.LogY
+        set(gca, 'YScale', 'log');
+    end
+    
     
     nombre_normal = fullfile(output_folder, ...
         [modelname '_IC_' num2str(nIC) '_State_' num2str(state_index)]);
@@ -106,6 +119,14 @@ function PlotResultsICs(results_matrix, ode_function, param_values, x0, ...
     title([modelname ': log-sensitivity of ' state_names{state_index} ...
            ' to ' ic_label], ...
           'FontSize', 18, 'FontWeight', 'bold');
+    set(gca, 'YDir', 'normal');
+    if opts.LogX
+        set(gca, 'XScale', 'log');
+    end
+    
+    if opts.LogY
+        set(gca, 'YScale', 'log');
+    end
     
     nombre_log = fullfile(output_folder, ...
         [modelname '_IC_' num2str(nIC) '_State_' num2str(state_index) '_log']);

@@ -92,7 +92,7 @@ function sensitivityICs(model, opts, ode_function)
 
     end
 
-    PlotResultsICs(results_matrix, ode_function, model.param_values, model.x0, model.tspan, stateVect, nIC, model.state_index, opts.modelname, model.param_names, model.state_names, opts.solver, opts.rel_tol, opts.abs_tol, opts.visualization_choice);
+    PlotResultsICs(results_matrix, ode_function, model.param_values, model.x0, model.tspan, stateVect, nIC, model.state_index, model.param_names, model.state_names, opts);
     toc
 
     close(h);

@@ -1,4 +1,4 @@
 
 
 opts.LogY = true;
-opts.LogX = true;
+opts.LogX = false;
