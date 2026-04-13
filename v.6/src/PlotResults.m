@@ -67,18 +67,18 @@ function PlotResults(results_matrix, ode_function, param_values, x0, tspan, Mode
     figura_normal = figure('Visible', 'off', 'Position', [100, 100, 600, 400]);
     switch visualization_choice
         case 1
-            contourf(tspan, ModelVect, matrix_to_plot, 10, 'LineColor', 'k');
+            contourf(tspan, ModelVect, matrix_to_plot, opts.n_contours, 'LineColor', 'k');
             colormap(gray);
             cb = colorbar;
             cb.Label.String = 'Sensitivity';
         case 2
             inferno = csvread('inferno_colormap.csv');
-            contourf(tspan, ModelVect, matrix_to_plot, 10, 'LineColor', 'k');
+            contourf(tspan, ModelVect, matrix_to_plot, opts.n_contours, 'LineColor', 'k');
             colormap(inferno);
             cb = colorbar;
             cb.Label.String = 'Sensitivity';
         %case 3
-            %contour(tspan, CARTVect, matrix_to_plot, 10, 'LineColor', 'k');
+            %contour(tspan, CARTVect, matrix_to_plot, opts.n_contours, 'LineColor', 'k');
     end
     xlabel('Time (s)', 'FontSize', 18);
     ylabel(param_names{pI}, 'FontSize', 18, 'Rotation', 0);
@@ -103,18 +103,18 @@ function PlotResults(results_matrix, ode_function, param_values, x0, tspan, Mode
     figura_log = figure('Visible', 'off', 'Position', [100, 100, 600, 400]);
     switch visualization_choice
         case 1
-            contourf(tspan, ModelVect, real(results_matrix_log), 10, 'LineColor', 'k');
+            contourf(tspan, ModelVect, real(results_matrix_log), opts.n_contours, 'LineColor', 'k');
             colormap(gray);
             cb = colorbar;
             cb.Label.String = 'Sensitivity';
         case 2
             inferno = csvread('inferno_colormap.csv');
-            contourf(tspan, ModelVect, real(results_matrix_log), 10, 'LineColor', 'k');
+            contourf(tspan, ModelVect, real(results_matrix_log), opts.n_contours, 'LineColor', 'k');
             colormap(inferno);
             cb = colorbar;
             cb.Label.String = 'Sensitivity';
         %case 3
-            %contour(tspan, CARTVect, real(results_matrix_log), 10, 'LineColor', 'k');
+            %contour(tspan, CARTVect, real(results_matrix_log), opts.n_contours, 'LineColor', 'k');
     end
     xlabel('Time (s)', 'FontSize', 18);
     ylabel(param_names{pI}, 'FontSize', 18, 'Rotation', 0);
