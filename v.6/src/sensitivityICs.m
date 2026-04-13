@@ -21,22 +21,22 @@ function sensitivityICs(model, opts, ode_function)
     if model.range_typeICs == 1
 
         % Points within the range of sensitivity
-        stateVect = logspace(rango_min, log10(rango_max), model.number_samples);
+        stateVect = logspace(rango_min, log10(rango_max), model.number_samplesICs);
 
     elseif model.range_typeICs == 2
     
-        model.number_samples = 1000;
-        stateVect = model.param_ranges;
+        model.number_samplesICs = 1000;
+        stateVect = model.param_rangesICs;
 
     elseif model.range_typeICs == 3
 
-        stateVect = model.param_ranges;
+        stateVect = model.param_rangesICs;
     
     end   
 
     
 
-    results_matrix = zeros(model.number_samples, length(model.tspan));
+    results_matrix = zeros(model.number_samplesICs, length(model.tspan));
 
     if opts.usar_paralelo
     
@@ -47,7 +47,7 @@ function sensitivityICs(model, opts, ode_function)
         rel_tol = opts.rel_tol;
         abs_tol = opts.abs_tol;
 
-        parfor i = 1:model.number_samples
+        parfor i = 1:model.number_samplesICs
 
             local_states = Original_x0;
             local_states(nIC) = stateVect(i);
@@ -63,7 +63,7 @@ function sensitivityICs(model, opts, ode_function)
         end
     else
 
-        for i = 1:model.number_samples
+        for i = 1:model.number_samplesICs
             
             % No modifico el original, hago una copia cada vez
             local_states = Original_x0;
@@ -84,9 +84,9 @@ function sensitivityICs(model, opts, ode_function)
             results_matrix(i, :) = normalized;
             
             % Poniendo el número en el que está del sample
-            %waitbar(i / model.number_samples, h, sprintf('Computing IC sample %d of %d...', i, model.number_samples));
+            %waitbar(i / model.number_samplesICs, h, sprintf('Computing IC sample %d of %d...', i, model.number_samplesICs));
             % Sin él
-            waitbar(i / model.number_samples, h, sprintf('Computing...'));
+            waitbar(i / model.number_samplesICs, h, sprintf('Computing...'));
 
         end
 

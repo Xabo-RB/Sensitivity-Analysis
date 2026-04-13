@@ -35,7 +35,7 @@ elseif model.range_type == 2
 elseif model.range_type == 3
 
     model.param_ranges = {
-        4e-6:1e-6:2e-2, ...
+        4e-6:1e-6:2e-2; ...
         0.001:0.001:1
     };
 
@@ -47,25 +47,25 @@ model.x0 = [0, 100, 2e4];
 model.state_names = {'C0', 'L', 'R'};
 model.ICs_ranges = [0 2e4];
 
-model.range_typeICs = 1;
+model.range_typeICs = 2;
 
 if model.range_typeICs == 1
 
     % How many points you would like to compute within the default range
-    model.number_samples = 1000;
+    model.number_samplesICs = 1000;
 
 elseif model.range_typeICs == 2
 
-    model.number_samples = 1000;
+    model.number_samplesICs = 1000;
 
-    model.param_ranges = logspace(model.ICs_ranges(1), log10(model.ICs_ranges(2)), model.number_samples);
+    model.param_rangesICs = logspace(model.ICs_ranges(1), log10(model.ICs_ranges(2)), model.number_samplesICs);
 
-    model.param_ranges = linspace(model.ICs_ranges(1), model.ICs_ranges(2), model.number_samples);
+    model.param_rangesICs = linspace(model.ICs_ranges(1), model.ICs_ranges(2), model.number_samplesICs);
 
 elseif model.range_typeICs == 3
 
-    model.param_ranges = (model.ICs_ranges(1):200:model.ICs_ranges(2));   
-    model.number_samples = length(model.param_ranges);
+    model.param_rangesICs = (model.ICs_ranges(1):200:model.ICs_ranges(2));   
+    model.number_samplesICs = length(model.param_rangesICs);
 
 end   
 
