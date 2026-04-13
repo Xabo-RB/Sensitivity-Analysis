@@ -47,7 +47,7 @@ model.x0 = [0, 100, 2e4];
 model.state_names = {'C0', 'L', 'R'};
 model.ICs_ranges = [0 2e4];
 
-model.range_typeICs = 2;
+model.range_typeICs = 3;
 
 if model.range_typeICs == 1
 

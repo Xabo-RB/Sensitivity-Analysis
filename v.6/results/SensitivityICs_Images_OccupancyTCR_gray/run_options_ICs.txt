@@ -10,7 +10,7 @@ State analyzed (output): C0 (index 1)
 Initial condition varied: R_0 (index 3)
 Simulation step size: 0.05
 Simulation end time: 50
-Sensitivity iterations: 1000
+Sensitivity iterations: 101
 
 === MODEL PARAMETERS ===
 kon = 5e-05
