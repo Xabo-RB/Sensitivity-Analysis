@@ -25,5 +25,5 @@ function opts = options()
     AdditionalVisualizationOpst
 
     % === SENSITIVITY TO INITIAL CONDITIONS ===
-    opts.ICsens = true;               % 'True' If you want to analyse the sensitivity to a given initial condition; 'False' if not.
+    opts.ICsens = false;               % 'True' If you want to analyse the sensitivity to a given initial condition; 'False' if not.
 end

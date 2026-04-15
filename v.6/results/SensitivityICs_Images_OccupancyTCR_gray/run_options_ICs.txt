@@ -1,7 +1,7 @@
 === RUN CONFIGURATION (IC sensitivity) ===
 
 Model: OccupancyTCR
-ODE function: OccupancyTCR.m
+ODE function: @(t,x,p)ode_base(t,x,p,model.tspan,model.u1).m
 Solver: ode23s
 Relative Tolerance: 0.0001
 Absolute Tolerance: 0.0001

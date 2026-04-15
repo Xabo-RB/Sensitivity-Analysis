@@ -1,7 +1,7 @@
 === RUN CONFIGURATION ===
 
 Model: OccupancyTCR
-ODE function: OccupancyTCR.m
+ODE function: @(t,x,p)ode_base(t,x,p,model.tspan,model.u1).m
 Solver: ode23s
 Relative Tolerance: 0.0001
 Absolute Tolerance: 0.0001
@@ -9,7 +9,7 @@ Visualization: gray (option 1)
 State analyzed: C0 (index 1)
 Simulation step size: 0.05
 Simulation end time: 50
-Sensitivity iterations: 1000
+Sensitivity iterations: 200
 
 === MODEL PARAMETERS ===
 kon = 5e-05

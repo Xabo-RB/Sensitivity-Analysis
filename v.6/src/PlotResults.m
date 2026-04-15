@@ -85,11 +85,11 @@ function PlotResults(results_matrix, ode_function, param_values, x0, tspan, Mode
     title([modelname ': Sensitivity of ' state_names{state_index} ' to ' param_names{pI}], ...
         'FontSize', 18, 'FontWeight', 'bold');
     set(gca, 'YDir', 'normal');
-    if LogX
+    if opts.LogX
         set(gca, 'XScale', 'log');
     end
     
-    if LogY
+    if opts.LogY
         set(gca, 'YScale', 'log');
     end
     

@@ -1,6 +1,4 @@
 function [model, opts] = refiningModelOptions(model, opts)
-
-    model.tspan     = 0.0:model.step_size:model.t_end;
     
     % CONVERT STATE NAME TO INDEX
     model.state_index = find(strcmpi(model.state_to_analyze, model.state_names), 1);

@@ -7,7 +7,7 @@ function SensitivityOrganizer()
     opts = options();
     
     % Create the name of the function handle type variable that is going to analyse
-    ode_function  = str2func(opts.modelname);
+    ode_base  = str2func(opts.modelname);
     
     % Run the corresponding options file
     options_script = [opts.modelname '_options'];
@@ -16,6 +16,9 @@ function SensitivityOrganizer()
     else
         error(['File ' options_script '.m not found']);
     end
+
+    % Intento input
+    ode_function = @(t,x,p) ode_base(t, x, p, model.tspan, model.u1);
     
     % Initialize the parallel processing pool if it is not active and if it is
     % required by the user
