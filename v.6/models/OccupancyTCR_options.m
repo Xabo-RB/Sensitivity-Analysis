@@ -51,8 +51,8 @@ model.IC_spacing = 'linear';
 model.tspan     = 0.0:model.step_size:model.t_end;
 
 % Defining inputs
+model.ifu1 = false;
 model.u1 = 2 * ones(size(model.tspan));
-
 
 [model, opts] = refiningModelOptions(model, opts);
 
