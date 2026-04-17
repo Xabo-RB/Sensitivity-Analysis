@@ -1,0 +1,22 @@
+=== RUN CONFIGURATION ===
+
+Model: C2M
+ODE function: @(t,x,p)ode_base(t,x,p,model.tspan,model.u1).m
+Solver: ode15s
+Relative Tolerance: 1e-06
+Absolute Tolerance: 1e-06
+Visualization: gray (option 1)
+State analyzed: x1 (index 1)
+Simulation step size: 0.05
+Simulation end time: 50
+Sensitivity iterations: 200
+
+=== MODEL PARAMETERS ===
+k1e = 0.5
+k12 = 0.5
+k21 = 2
+b = 1
+
+=== MODEL STATES ===
+x1 = 0.5
+x2 = 0.5

@@ -1,4 +1,4 @@
-function dx = C2M(t, x, p)
+function dx = C2M(t, x, p, tspan, u1)
 
     dx = zeros(2, 1);
 

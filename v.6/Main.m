@@ -30,6 +30,15 @@ addpath('models');
 
 %% USER-DEFINED
 
+% Test previo de tiempos e integradores: probar todos los integradores
+% existentes de Matlab y comprobar los tiempos de integración y exactitud.
+Test = true;
+if Test
+    FirstTest
+    return
+end
+
+
 % Model conversion and/or sensitivity launch: 'convert' or 'run'
 mode = 'run'; 
 
