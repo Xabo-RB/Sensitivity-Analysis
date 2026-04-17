@@ -34,7 +34,7 @@ addpath('models');
 % existentes de Matlab y comprobar los tiempos de integración y exactitud.
 Test = true;
 if Test
-    FirstTest
+    results = FirstTest();
     return
 end
 
