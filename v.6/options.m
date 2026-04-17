@@ -5,14 +5,14 @@ function opts = options()
 
     % === MODEL SELECTION ===
     %   Acronym given to the model in the file in models folder
-    opts.modelname     = 'HIV';          
+    opts.modelname     = 'C2M';          
     
     % === TOLERANCES ===
-    opts.rel_tol = 1e-4;                 %   Relative Tolerance.   
-    opts.abs_tol = 1e-4;                 %   Absolute Tolerance.
+    opts.rel_tol = 1e-6;                 %   Relative Tolerance.   
+    opts.abs_tol = 1e-6;                 %   Absolute Tolerance.
     
     % === SOLVER AND STEP ===
-    opts.solver = @ode23s;                %   Some examples: @ode15, @ode23s, @ode45...
+    opts.solver = @ode15s;                %   Some examples: @ode15, @ode23s, @ode45...
     opts.d = 1.0e-16;
     
     % === PARALLEL COMPUTING ===
