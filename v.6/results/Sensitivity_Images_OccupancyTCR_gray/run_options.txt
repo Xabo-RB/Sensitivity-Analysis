@@ -2,7 +2,7 @@
 
 Model: OccupancyTCR
 ODE function: OccupancyTCR.m
-Solver: ode23s
+Solver: ode15s
 Relative Tolerance: 0.0001
 Absolute Tolerance: 0.0001
 Visualization: gray (option 1)

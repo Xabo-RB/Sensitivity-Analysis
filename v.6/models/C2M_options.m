@@ -32,9 +32,9 @@ model.param_range_mode = 'default_orders';
 
 % One value per parameter, in the same order as model.param_names.
 % 'default_orders' just use param_range_npoints.
-model.param_range_min    = [4e-6,  1e-3];
-model.param_range_max    = [2e-2,  1];
-model.param_range_step   = [1e-6,  1e-3]; % used only in 'custom_step'
+model.param_range_min = [0.25, 0.25, 1, 0.5];
+model.param_range_max = [0.75, 0.75, 3, 1.5];
+model.param_range_step = [0.0025, 0.0025, 0.01, 0.005]; % used only in 'custom_step'
 model.param_range_npoints = 200;   % used only in 'default_orders' and 'minmax_npoints'
 
 % === INITIAL CONDITIONS RANGE VALUES ===

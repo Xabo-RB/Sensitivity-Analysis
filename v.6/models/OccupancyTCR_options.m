@@ -20,7 +20,7 @@ model.t_end     = 50;
 model.tspan     = 0.0:model.step_size:model.t_end;
 
 % === INPUTS ===
-model.ifu1 = false;
+model.ifU1 = false;
 model.u1 = 2 * ones(size(model.tspan));
 
 % === PARAMETER RANGE SETTINGS ===
