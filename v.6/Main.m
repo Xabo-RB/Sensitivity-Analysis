@@ -32,7 +32,7 @@ addpath('models');
 
 % Test previo de tiempos e integradores: probar todos los integradores
 % existentes de Matlab y comprobar los tiempos de integración y exactitud.
-Test = false;
+Test = true;
 if Test
     results = FirstTest();
     return

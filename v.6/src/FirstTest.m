@@ -131,29 +131,98 @@ function results = FirstTest()
     rms_err = [results.rms_error];
     solver_names = {results.solver};
 
-    figure;
-    
-    % === Subplot 1: tiempo ===
-    subplot(2,1,1);
-    bar(time_s);
-    set(gca, 'XTick', 1:nSolvers, 'XTickLabel', solver_names);
-    xtickangle(45);
-    ylabel('Execution time (s)');
-    title('Solver comparison');
-    grid on;
-    
-    % === Subplot 2: errores ===
-    subplot(2,1,2);
-    semilogy(1:nSolvers, max_err, '-o', 'LineWidth', 1.5, 'DisplayName', 'Max error');
-    hold on;
-    semilogy(1:nSolvers, rms_err, '-s', 'LineWidth', 1.5, 'DisplayName', 'RMS error');
-    set(gca, 'XTick', 1:nSolvers, 'XTickLabel', solver_names);
-    xtickangle(45);
-    ylabel('Error (log scale)');
-    xlabel('Solver');
-    legend('Location','best');
-    grid on;
+    % figure;
+    % 
+    % % === Subplot 1: tiempo ===
+    % subplot(2,1,1);
+    % bar(time_s);
+    % set(gca, 'XTick', 1:nSolvers, 'XTickLabel', solver_names);
+    % xtickangle(45);
+    % ylabel('Execution time (s)');
+    % title('Solver comparison');
+    % grid on;
+    % 
+    % % === Subplot 2: errores ===
+    % subplot(2,1,2);
+    % semilogy(1:nSolvers, max_err, '-o', 'LineWidth', 1.5, 'DisplayName', 'Max error');
+    % hold on;
+    % semilogy(1:nSolvers, rms_err, '-s', 'LineWidth', 1.5, 'DisplayName', 'RMS error');
+    % set(gca, 'XTick', 1:nSolvers, 'XTickLabel', solver_names);
+    % xtickangle(45);
+    % ylabel('Error (log scale)');
+    % xlabel('Solver');
+    % legend('Location','best');
+    % grid on;
+    % 
+    % figure('Color','w','Position',[100 100 900 650]);
 
+    figure('Color','w','Position',[100 100 900 650]);
+    
+    tiledlayout(2,1,'TileSpacing','compact','Padding','compact');
+    
+    % ==============================
+    % Preparación: ordenar por tiempo
+    % ==============================
+    [time_sorted, idx] = sort(time_s, 'ascend');
+    solver_names_sorted = solver_names(idx);
+    max_err_sorted = max_err(idx);
+    rms_err_sorted = rms_err(idx);
+    
+    % === Gráfico 1: tiempo de ejecución ===
+    nexttile;
+    bar(1:nSolvers, time_sorted, ...
+        'FaceColor',[0.2 0.5 0.8], ...
+        'EdgeColor','none', ...
+        'BarWidth',0.7);
+    
+    set(gca, 'XTick', 1:nSolvers, 'XTickLabel', solver_names_sorted, ...
+        'FontSize',11, 'Box','off', 'TickDir','out');
+    xtickangle(35);
+    ylabel('Execution time (s)', 'FontSize',12);
+    title('Solver comparison by execution time', 'FontSize',14, 'FontWeight','bold');
+    grid on;
+    ax = gca;
+    ax.GridAlpha = 0.15;
+    ax.MinorGridAlpha = 0.08;
+    ax.YMinorGrid = 'on';
+    
+    % Etiquetas con valor encima de cada barra
+    ylim_curr = ylim;
+    offset = 0.015 * (ylim_curr(2)-ylim_curr(1));
+    for i = 1:nSolvers
+        text(i, time_sorted(i) + offset, sprintf('%.3g s', time_sorted(i)), ...
+            'HorizontalAlignment','center', ...
+            'VerticalAlignment','bottom', ...
+            'FontSize',10, ...
+            'Color',[0.2 0.2 0.2]);
+    end
+    
+    % === Gráfico 2: errores ===
+    nexttile;
+    semilogy(1:nSolvers, max_err_sorted, '-o', ...
+        'LineWidth',1.8, 'MarkerSize',7, ...
+        'MarkerFaceColor',[0.85 0.33 0.10], ...
+        'Color',[0.85 0.33 0.10], ...
+        'DisplayName','Max error');
+    hold on;
+    
+    semilogy(1:nSolvers, rms_err_sorted, '-s', ...
+        'LineWidth',1.8, 'MarkerSize',7, ...
+        'MarkerFaceColor',[0.00 0.45 0.74], ...
+        'Color',[0.00 0.45 0.74], ...
+        'DisplayName','RMS error');
+    
+    set(gca, 'XTick', 1:nSolvers, 'XTickLabel', solver_names_sorted, ...
+        'FontSize',11, 'Box','off', 'TickDir','out');
+    xtickangle(35);
+    ylabel('Error (log scale)', 'FontSize',12);
+    xlabel('Solver', 'FontSize',12);
+    title('Accuracy comparison', 'FontSize',14, 'FontWeight','bold');
+    legend('Location','best','Box','off');
+    grid on;
+    ax = gca;
+    ax.GridAlpha = 0.15;
+    ax.YMinorGrid = 'on';
 
 
 end
