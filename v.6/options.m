@@ -5,7 +5,7 @@ function opts = options()
 
     % === MODEL SELECTION ===
     %   Acronym given to the model in the file in models folder
-    opts.modelname     = 'OccupancyTCR';          
+    opts.modelname     = 'C2M';          
     
     % === TOLERANCES ===
     opts.rel_tol = 1e-4;                 %   Relative Tolerance.   

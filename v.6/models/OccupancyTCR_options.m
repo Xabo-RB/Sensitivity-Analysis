@@ -13,6 +13,12 @@ model.x0 = [0, 100, 2e4];
 % === STATE TO ANALYZE ===
 model.state_to_analyze = 'C0';
 
+% === TO WHICH PARAMETERS WOULD YOU LIKE TO ANALYSE? ===
+% All the parameters?
+model.whichParamsAll = true;
+% Define the parameters
+model.whichParams = {'kon', 'koff'};
+
 % === TIME CONFIGURATION ===
 model.step_size = 0.05;
 model.t_end     = 50;

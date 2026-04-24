@@ -2,92 +2,186 @@ function sensitivityParams(model, opts, ode_function)
 
         param_values_original = model.param_values;
         x0_real = model.x0;
-        num_params = length(model.param_values);
-        
-        % === LOOP OF PARAMETERS TO ANALYZE ===
-        % (Puede ser con cálculo paralelo o de manera normal)
-        h = waitbar(0, 'Computing sensitivity for parameter...');
-        for pI = 1:num_params  
-            tic
-            
-            if model.range_type == 1
 
-                % 3 magnitudes por encima y 3 por debajo
-                p0 = param_values_original(pI);
-                rango_min_param = p0 * 1e-3;
-                rango_max_param = p0 * 1e3;
-                ModelVect = logspace(log10(rango_min_param), log10(rango_max_param), model.number_samples);
+        if model.whichParamsAll
+            num_params = length(model.param_values);
             
-            elseif model.range_type == 2
-               
-                rango_min_param = model.param_ranges(pI,1);
-                rango_max_param = model.param_ranges(pI,2);
-                ModelVect = logspace(log10(rango_min_param), log10(rango_max_param), model.number_samples);
-            
-            elseif model.range_type == 3
-
-                ModelVect = model.param_ranges{pI};
-                model.number_samples = length(ModelVect);
-            
-            end 
+            % === LOOP OF PARAMETERS TO ANALYZE ===
+            % (Puede ser con cálculo paralelo o de manera normal)
+            h = waitbar(0, 'Computing sensitivity for parameter...');
+            for pI = 1:num_params  
+                tic
+                
+                if model.range_type == 1
     
-            results_matrix = zeros(model.number_samples, length(model.tspan));
+                    % 3 magnitudes por encima y 3 por debajo
+                    p0 = param_values_original(pI);
+                    rango_min_param = p0 * 1e-3;
+                    rango_max_param = p0 * 1e3;
+                    ModelVect = logspace(log10(rango_min_param), log10(rango_max_param), model.number_samples);
+                
+                elseif model.range_type == 2
+                   
+                    rango_min_param = model.param_ranges(pI,1);
+                    rango_max_param = model.param_ranges(pI,2);
+                    ModelVect = logspace(log10(rango_min_param), log10(rango_max_param), model.number_samples);
+                
+                elseif model.range_type == 3
+    
+                    ModelVect = model.param_ranges{pI};
+                    model.number_samples = length(ModelVect);
+                
+                end 
         
-            if opts.usar_paralelo
+                results_matrix = zeros(model.number_samples, length(model.tspan));
             
-                % En cálculo paralelo crearía problemas de eficiencia pasar las
-                % variables en forma de struct (sale un warning)
-                d = opts.d;
-                solver = opts.solver;
-                rel_tol = opts.rel_tol;
-                abs_tol = opts.abs_tol;
-    
-                parfor i = 1:model.number_samples
-    
-                    local_params = param_values_original;
-                    local_params(pI) = ModelVect(i);
-                    p = complex(local_params, 0);        
+                if opts.usar_paralelo
+                
+                    % En cálculo paralelo crearía problemas de eficiencia pasar las
+                    % variables en forma de struct (sale un warning)
+                    d = opts.d;
+                    solver = opts.solver;
+                    rel_tol = opts.rel_tol;
+                    abs_tol = opts.abs_tol;
+        
+                    parfor i = 1:model.number_samples
+        
+                        local_params = param_values_original;
+                        local_params(pI) = ModelVect(i);
+                        p = complex(local_params, 0);        
+                
+                        % Run the ODE integration with the modified parameters
+                        sol = sensitivityMain(x0_real, p, d, model.tspan, ode_function, solver, rel_tol, abs_tol);
+                
+                        % Extract the response corresponding to the status of interest
+                        response = sol{model.state_index}(:, pI + 1);
+                        % Evolución del estado sin sensibilizar al parámetro
+                        evoX = sol{model.state_index}(:, 1);
+                        normalized = (response .* ModelVect(i)) ./ evoX;
+                        results_matrix(i, :) = normalized;
+                    end
+                else
             
-                    % Run the ODE integration with the modified parameters
-                    sol = sensitivityMain(x0_real, p, d, model.tspan, ode_function, solver, rel_tol, abs_tol);
+                    for i = 1:model.number_samples
+                        
+                        % No modifico el original, hago una copia cada vez
+                        local_params = param_values_original;
+                        % Equivalente a p = complex([5e-5, koffVect(i), 1, 0.09, 1000, 10000, 1000], 0);
+                        local_params(pI) = ModelVect(i);
+                        p = complex(local_params, 0);        
+                
+                        % Run the ODE integration with the modified parameters
+                        sol = sensitivityMain(x0_real, p, opts.d, model.tspan, ode_function, opts.solver, opts.rel_tol, opts.abs_tol);
+                
+                        % Extract the response corresponding to the status of interest
+                        response = sol{model.state_index}(:, pI + 1);
+                        % Evolución del estado sin sensibilizar al parámetro
+                        evoX = sol{model.state_index}(:, 1);
+                        normalized = (response .* ModelVect(i)) ./ evoX;
+                        results_matrix(i, :) = normalized;
+                    end
             
-                    % Extract the response corresponding to the status of interest
-                    response = sol{model.state_index}(:, pI + 1);
-                    % Evolución del estado sin sensibilizar al parámetro
-                    evoX = sol{model.state_index}(:, 1);
-                    normalized = (response .* ModelVect(i)) ./ evoX;
-                    results_matrix(i, :) = normalized;
                 end
-            else
+                
+                waitbar(pI / num_params, h, ...
+                sprintf('Processing parameter %d of %d', pI, num_params));
         
-                for i = 1:model.number_samples
-                    
-                    % No modifico el original, hago una copia cada vez
-                    local_params = param_values_original;
-                    % Equivalente a p = complex([5e-5, koffVect(i), 1, 0.09, 1000, 10000, 1000], 0);
-                    local_params(pI) = ModelVect(i);
-                    p = complex(local_params, 0);        
-            
-                    % Run the ODE integration with the modified parameters
-                    sol = sensitivityMain(x0_real, p, opts.d, model.tspan, ode_function, opts.solver, opts.rel_tol, opts.abs_tol);
-            
-                    % Extract the response corresponding to the status of interest
-                    response = sol{model.state_index}(:, pI + 1);
-                    % Evolución del estado sin sensibilizar al parámetro
-                    evoX = sol{model.state_index}(:, 1);
-                    normalized = (response .* ModelVect(i)) ./ evoX;
-                    results_matrix(i, :) = normalized;
-                end
-        
+                PlotResults(results_matrix, ode_function, model.param_values, model.x0, model.tspan, ModelVect, pI, model.state_index, model.param_names, model.state_names, opts);
+                disp(['Generated figures for parameter ' num2str(pI) ' of ' num2str(length(model.param_values))]);
+                toc
             end
+            close(h);
+        else
+
+            num_params = length(model.whichParams);
+            [found, idx] = ismember(model.whichParams, model.param_names);
             
-            waitbar(pI / num_params, h, ...
-            sprintf('Processing parameter %d of %d', pI, num_params));
+            % === LOOP OF PARAMETERS TO ANALYZE ===
+            % (Puede ser con cálculo paralelo o de manera normal)
+            h = waitbar(0, 'Computing sensitivity for parameter...');
+            for pI = idx  
+                tic
+                
+                if model.range_type == 1
     
-            PlotResults(results_matrix, ode_function, model.param_values, model.x0, model.tspan, ModelVect, pI, model.state_index, model.param_names, model.state_names, opts);
-            disp(['Generated figures for parameter ' num2str(pI) ' of ' num2str(length(model.param_values))]);
-            toc
+                    % 3 magnitudes por encima y 3 por debajo
+                    p0 = param_values_original(pI);
+                    rango_min_param = p0 * 1e-3;
+                    rango_max_param = p0 * 1e3;
+                    ModelVect = logspace(log10(rango_min_param), log10(rango_max_param), model.number_samples);
+                
+                elseif model.range_type == 2
+                   
+                    rango_min_param = model.param_ranges(pI,1);
+                    rango_max_param = model.param_ranges(pI,2);
+                    ModelVect = logspace(log10(rango_min_param), log10(rango_max_param), model.number_samples);
+                
+                elseif model.range_type == 3
+    
+                    ModelVect = model.param_ranges{pI};
+                    model.number_samples = length(ModelVect);
+                
+                end 
+        
+                results_matrix = zeros(model.number_samples, length(model.tspan));
+            
+                if opts.usar_paralelo
+                
+                    % En cálculo paralelo crearía problemas de eficiencia pasar las
+                    % variables en forma de struct (sale un warning)
+                    d = opts.d;
+                    solver = opts.solver;
+                    rel_tol = opts.rel_tol;
+                    abs_tol = opts.abs_tol;
+        
+                    parfor i = 1:model.number_samples
+        
+                        local_params = param_values_original;
+                        local_params(pI) = ModelVect(i);
+                        p = complex(local_params, 0);        
+                
+                        % Run the ODE integration with the modified parameters
+                        sol = sensitivityMain(x0_real, p, d, model.tspan, ode_function, solver, rel_tol, abs_tol);
+                
+                        % Extract the response corresponding to the status of interest
+                        response = sol{model.state_index}(:, pI + 1);
+                        % Evolución del estado sin sensibilizar al parámetro
+                        evoX = sol{model.state_index}(:, 1);
+                        normalized = (response .* ModelVect(i)) ./ evoX;
+                        results_matrix(i, :) = normalized;
+                    end
+                else
+            
+                    for i = 1:model.number_samples
+                        
+                        % No modifico el original, hago una copia cada vez
+                        local_params = param_values_original;
+                        % Equivalente a p = complex([5e-5, koffVect(i), 1, 0.09, 1000, 10000, 1000], 0);
+                        local_params(pI) = ModelVect(i);
+                        p = complex(local_params, 0);        
+                
+                        % Run the ODE integration with the modified parameters
+                        sol = sensitivityMain(x0_real, p, opts.d, model.tspan, ode_function, opts.solver, opts.rel_tol, opts.abs_tol);
+                
+                        % Extract the response corresponding to the status of interest
+                        response = sol{model.state_index}(:, pI + 1);
+                        % Evolución del estado sin sensibilizar al parámetro
+                        evoX = sol{model.state_index}(:, 1);
+                        normalized = (response .* ModelVect(i)) ./ evoX;
+                        results_matrix(i, :) = normalized;
+                    end
+            
+                end
+                
+                waitbar(pI / num_params, h, ...
+                sprintf('Processing parameter %d of %d', pI, num_params));
+        
+                PlotResults(results_matrix, ode_function, model.param_values, model.x0, model.tspan, ModelVect, pI, model.state_index, model.param_names, model.state_names, opts);
+                disp(['Generated figures for parameter ' num2str(pI) ' of ' num2str(length(model.param_values))]);
+                toc
+            end
+            close(h);
+
         end
-        close(h);
 
 end

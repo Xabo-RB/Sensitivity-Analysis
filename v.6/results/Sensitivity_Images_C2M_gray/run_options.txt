@@ -3,8 +3,8 @@
 Model: C2M
 ODE function: @(t,x,p)ode_base(t,x,p,model.tspan,model.u1).m
 Solver: ode15s
-Relative Tolerance: 1e-06
-Absolute Tolerance: 1e-06
+Relative Tolerance: 0.0001
+Absolute Tolerance: 0.0001
 Visualization: gray (option 1)
 State analyzed: x1 (index 1)
 Simulation step size: 0.05
